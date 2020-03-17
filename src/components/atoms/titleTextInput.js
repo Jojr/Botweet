@@ -3,36 +3,32 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
 
 const TitleTextInput = ({
-  bgColor,
-  secureTextEntry,
-  maxLength,
+  placeholder,
   value,
   onChangeText,
-  textContentType,
   keyboardType,
+  secureTextEntry,
+  textContentType,
   autoCorrect,
-  mask,
-
-  textColor,
-  borderColor,
-  fontWeight,
+  backgroundColor,
+  color,
 }) => {
   const { buttonStyle, textStyle } = StylesLocal;
 
   return (
-    <View style={StylesLocal.container}>
+    <View style={[StylesLocal.container, { backgroundColor }]}>
       <TextInput
+        placeholder={placeholder || ''}
+        placeholderTextColor={color}
         secureTextEntry={secureTextEntry || false}
-        maxLength={maxLength}
         value={value}
-        style={StylesLocal.textInput}
+        style={[StylesLocal.textInput, Typography.FONT_REGULAR, { color }]}
         underlineColorAndroid="transparent"
         onChangeText={onChangeText}
         textContentType={textContentType}
         keyboardType={keyboardType}
         autoCorrect={autoCorrect || false}
         autoCapitalize="none"
-        mask={mask}
       />
     </View>
   );
@@ -41,10 +37,15 @@ const TitleTextInput = ({
 const StylesLocal = StyleSheet.create({
   container: {
     width: '100%',
-    height: 50,
-    marginVertical: 4,
-    borderBottomWidth: 1,
-    borderColor: '#FFFFFF40',
+    justifyContent: 'center',
+    height: 55,
+    //marginVertical: 50,
+    borderRadius: 25,
+  },
+  textInput: {
+    fontSize: Typography.FONT_SIZE_22,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
 });
 

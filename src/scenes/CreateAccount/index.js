@@ -16,36 +16,33 @@ import {
   View,
   Image,
   Text,
-  ImageBackground,
   Alert,
 } from 'react-native';
 import { I18n } from '@aws-amplify/core';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
-import SplashScreen from 'react-native-splash-screen';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 // import { loginUser } from '_actions';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
 import { TitleTextInput, ButtonText, MyStatusBar, PasswordVisibility } from '_atoms';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-/* Compose animatable component */
-AnimatedScrollView = Animatable.createAnimatableComponent(ScrollView);
-
-class LoginScene extends Component {
+class CreateAccountScene extends Component {
   constructor() {
     super();
     this.state = {
       backgroundLoaded: false,
+      name: '',
       email: '',
       password: '',
+      confirmPassword: '',
       hidePassword: true,
     };
   }
 
   componentDidMount() {
-    SplashScreen.hide();
+    
   }
 
   devAskingJobAlert = () => {
@@ -60,45 +57,56 @@ class LoginScene extends Component {
   };
 
   render() {
-    const { email, password, backgroundLoaded, hidePassword } = this.state;
+    const { name, email, password, confirmPassword, hidePassword } = this.state;
     return (
-      <ImageBackground
-        source={require('../../assets/images/BackGroundImage.png')}
-        style={[
-          StylesLocal.container,
-          backgroundLoaded
-            ? {}
-            : { backgroundColor: Colors.PRIMARY },
-        ]}
-        onLoad={() => this.setState({ backgroundLoaded: true })}
+      <LinearGradient
+        start={{ x: 1, y: 0.5 }}
+        end={{ x: 0, y: 0.5 }}
+        useAngle
+        angle={65}
+        angleCenter={{ x: 0.5, y: 0.5 }}
+        colors={Colors.GRADIENT_PRIMARY}
+        style={StylesLocal.container}
       >
-        <MyStatusBar backgroundColor="transparent" barStyle="light-content" />
         <KeyboardAwareScrollView
           enableOnAndroid
           enableAutomaticScroll
-          extraScrollHeight={80}
+          extraScrollHeight={50}
           keyboardShouldPersistTaps="always"
           keyboardDismissMode="on-drag"
         >
-          <Animatable.View
-            animation="fadeInUp"
-            delay={1000}
-            useNativeDriver
-            style={StylesLocal.formWrapper}
-          >
-            <View style={StylesLocal.fieldWrapper}>
+          <MyStatusBar backgroundColor="transparent" barStyle="light-content" />
+          <View style={StylesLocal.formWrapper}>
+            <View style={[StylesLocal.fieldWrapper, { alignSelf: 'center' }]}>
               <Image
                 resizeMode="contain"
                 style={StylesLocal.logo}
                 source={require('../../assets/images/Logo.png')}
               />
+              <Text style={[Typography.FONT_REGULAR, StylesLocal.text]}>{I18n.get('Create new account')}</Text>
+            </View>
+            <View style={StylesLocal.fieldWrapper}>
+              <TitleTextInput
+                placeholder={I18n.get('Name')}
+                value={name}
+                onChangeText={(name) => this.setState({ name })}
+                keyboardType="default"
+                secureTextEntry={false}
+                textContentType="name"
+                autoCorrect={false}
+                backgroundColor={Colors.TRANSPARENCY}
+                color={Colors.WHITE}
+                // updateMasterState={this._updateMasterState}
+              />
+            </View>
+            <View style={StylesLocal.fieldWrapper}>
               <TitleTextInput
                 placeholder={I18n.get('Email')}
                 value={email}
                 onChangeText={(email) => this.setState({ email })}
                 keyboardType="email-address"
                 secureTextEntry={false}
-                textContentType="username"
+                textContentType="emailAddress"
                 autoCorrect={false}
                 backgroundColor={Colors.TRANSPARENCY}
                 color={Colors.WHITE}
@@ -112,7 +120,7 @@ class LoginScene extends Component {
                 onChangeText={(password) => this.setState({ password })}
                 keyboardType="default"
                 secureTextEntry={hidePassword}
-                textContentType="password" // Set password to iOS12 keychain autofill
+                textContentType="newPassword" // Set newPassword to iOS12 keychain save
                 autoCorrect={false}
                 backgroundColor={Colors.TRANSPARENCY}
                 color={Colors.WHITE}
@@ -123,45 +131,42 @@ class LoginScene extends Component {
                 onPress={() => this.setState({ hidePassword: !hidePassword })}
               />
             </View>
-            <View style={[StylesLocal.fieldWrapper, { alignSelf: 'center' }]}>
-              <TouchableOpacity
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                onPress={() => this.devAskingJobAlert()}
-              >
-                <Text style={[Typography.FONT_REGULAR, StylesLocal.text]}>{I18n.get('Forgot password?')}</Text>
-              </TouchableOpacity>
+            <View style={StylesLocal.fieldWrapper}>
+              <TitleTextInput
+                placeholder={I18n.get('Password confirm')}
+                value={confirmPassword}
+                onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
+                keyboardType="default"
+                secureTextEntry={hidePassword}
+                textContentType="newPassword" // Set newPassword to iOS12 keychain save
+                autoCorrect={false}
+                backgroundColor={Colors.TRANSPARENCY}
+                color={Colors.WHITE}
+                // updateMasterState={this._updateMasterState}
+              />
+              <PasswordVisibility
+                value={hidePassword}
+                onPress={() => this.setState({ hidePassword: !hidePassword })}
+              />
             </View>
             <View style={[StylesLocal.fieldWrapper]}>
               <ButtonText
                 backgroundColor={Colors.GREEN}
                 color={Colors.WHITE}
               >
-                {I18n.get('Enter')}
+                {I18n.get('Create account')}
               </ButtonText>
             </View>
             <View style={[StylesLocal.fieldWrapper, { alignSelf: 'center' }]}>
-              <TouchableOpacity>
-                <Text style={[Typography.FONT_REGULAR, StylesLocal.text]}>{I18n.get('or')}</Text>
+              <TouchableOpacity
+                onPress={() => this.devAskingJobAlert()}
+              >
+                <Text style={[Typography.FONT_REGULAR, StylesLocal.text]}>{I18n.get('Need help')}</Text>
               </TouchableOpacity>
             </View>
-            <View style={[StylesLocal.fieldWrapper]}>
-              <ButtonText
-                backgroundColor="transparent"
-                borderWidth={1}
-                borderColor={Colors.WHITE}
-                color={Colors.WHITE}
-                onPress={() => {
-                  if (Actions.currentScene !== 'createAccount') {
-                    Actions.createAccount();
-                  }
-                }}
-              >
-                {I18n.get('Create new account')}
-              </ButtonText>
-            </View>
-          </Animatable.View>
+          </View>
         </KeyboardAwareScrollView>
-      </ImageBackground>
+      </LinearGradient>
     );
   }
 }
@@ -172,7 +177,8 @@ const StylesLocal = StyleSheet.create({
   },
   logo: {
     alignSelf: 'center',
-    paddingBottom: '50%',
+    paddingBottom: '30%',
+    width: 180,
   },
   formWrapper: {
     //paddingTop: '20%',
@@ -185,7 +191,7 @@ const StylesLocal = StyleSheet.create({
   },
   text: {
     color: Colors.WHITE,
-    fontSize: Typography.FONT_SIZE_20,
+    fontSize: Typography.FONT_SIZE_18,
   }
 });
 
@@ -194,4 +200,4 @@ const mapStateToProps = (state) => ({
 });
 export default connect(mapStateToProps, {
   // loginChanged,
-})(LoginScene);
+})(CreateAccountScene);

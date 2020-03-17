@@ -13,12 +13,13 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Typography, Spacing, Colors, Mixins } from '_styles';
 
 /* Import Actions */
 import * as authActions from '../redux/actions/auth';
 
 /* Scenes components */
-import LoginScene from '../scenes/Login';
+import { Login, CreateAccount } from '../scenes';
 //import SideBar from '../SideBar';
 
 /* Ícone menu Drawer */
@@ -32,6 +33,9 @@ const myIcon = (
     }}
   />
 );
+
+/* Nav icons */
+const arrowLeft = <Icon name="chevron-left" size={35} color={Colors.WHITE} />;
 
 class RouterComponent extends Component {
   render() {
@@ -52,7 +56,7 @@ class RouterComponent extends Component {
             drawerIcon={myIcon}
             drawerWidth={300}
             // contentComponent={SideBar}
-            contentComponent={LoginScene}
+            contentComponent={Login}
             drawerPosition="right"
             navTransparent
           >
@@ -68,7 +72,7 @@ class RouterComponent extends Component {
               <Scene
                 type="reset" // This prop set the scene as initial flow, no backbutton effetc
                 key="login" // This prop set the name of scene. Call this name no navigate (ex. "Actions.login()")
-                component={LoginScene} // Load the scene component
+                component={Login} // Load the scene component
                 hideNavBar // Show or hide navbar
                 // navigationBarStyle={stylesLocal.navBar}
                 navTransparent // Set transparency on navbar
@@ -87,8 +91,17 @@ class RouterComponent extends Component {
             <Scene
               type="reset"
               key="login"
-              component={LoginScene}
+              component={Login}
               hideNavBar
+              navTransparent
+            />
+            {/* Create account scene */}
+            <Scene
+              key="createAccount"
+              component={CreateAccount}
+              onLeft={() => Actions.pop()}
+              leftTitle={arrowLeft}
+              //hideNavBar
               navTransparent
             />
           </Scene>

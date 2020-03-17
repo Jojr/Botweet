@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Platform, NativeModules } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import Orientation from 'react-native-orientation-locker';
 import { I18n } from '@aws-amplify/core';
 import Router from './router';
 import { store, persistor } from './store';
@@ -23,6 +24,8 @@ class App extends Component {
         lang = NativeModules.I18nManager.localeIdentifier;
       }
       I18n.setLanguage(lang);
+      /* Lock orientation */
+      Orientation.lockToPortrait();
     }
 
     render() {
