@@ -12,23 +12,28 @@ const TitleTextInput = ({
   autoCorrect,
   backgroundColor,
   color,
+  autoCapitalize,
+  returnKeyLabel,
+  returnKeyType,
 }) => {
-  const { buttonStyle, textStyle } = StylesLocal;
+  const { container, textInput } = StylesLocal;
 
   return (
-    <View style={[StylesLocal.container, { backgroundColor }]}>
+    <View style={[container, { backgroundColor }]}>
       <TextInput
         placeholder={placeholder || ''}
         placeholderTextColor={color}
         secureTextEntry={secureTextEntry || false}
         value={value}
-        style={[StylesLocal.textInput, Typography.FONT_REGULAR, { color }]}
+        style={[textInput, Typography.FONT_REGULAR, { color }]}
         underlineColorAndroid="transparent"
         onChangeText={onChangeText}
         textContentType={textContentType}
         keyboardType={keyboardType}
         autoCorrect={autoCorrect || false}
-        autoCapitalize="none"
+        autoCapitalize={autoCapitalize || 'none'}
+        returnKeyLabel={returnKeyLabel || 'next'}
+        returnKeyType={returnKeyType || 'next'}
       />
     </View>
   );
@@ -39,7 +44,6 @@ const StylesLocal = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     height: 55,
-    //marginVertical: 50,
     borderRadius: 25,
   },
   textInput: {

@@ -17,6 +17,7 @@ import {
   Image,
   Text,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { I18n } from '@aws-amplify/core';
 import { connect } from 'react-redux';
@@ -26,7 +27,6 @@ import * as Animatable from 'react-native-animatable';
 // import { loginUser } from '_actions';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
 import { TitleTextInput, ButtonText, MyStatusBar, PasswordVisibility } from '_atoms';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class CreateAccountScene extends Component {
   constructor() {
@@ -159,9 +159,17 @@ class CreateAccountScene extends Component {
             </View>
             <View style={[StylesLocal.fieldWrapper, { alignSelf: 'center' }]}>
               <TouchableOpacity
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                 onPress={() => this.devAskingJobAlert()}
               >
-                <Text style={[Typography.FONT_REGULAR, StylesLocal.text]}>{I18n.get('Need help')}</Text>
+                <Text style={[
+                  Typography.FONT_REGULAR,
+                  StylesLocal.text,
+                  StylesLocal.underline
+                ]}
+                >
+                  {I18n.get('Need help')}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -192,6 +200,9 @@ const StylesLocal = StyleSheet.create({
   text: {
     color: Colors.WHITE,
     fontSize: Typography.FONT_SIZE_18,
+  },
+  underline: {
+    textDecorationLine: 'underline',
   }
 });
 

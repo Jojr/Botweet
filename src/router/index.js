@@ -1,6 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable no-trailing-spaces */
 import React, { Component } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import {
   Scene,
   Router,
@@ -14,6 +15,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
+import { NavButton } from '_atoms';
 
 /* Import Actions */
 import * as authActions from '../redux/actions/auth';
@@ -35,7 +37,19 @@ const myIcon = (
 );
 
 /* Nav icons */
-const arrowLeft = <Icon name="chevron-left" size={35} color={Colors.WHITE} />;
+const arrowLeft2 = (
+  <View style={{ marginTop: 30 }}>
+    <Icon name="chevron-left" size={35} color={Colors.WHITE} style={{ paddingTop: 10 }} />
+  </View>
+);
+
+const ArrowLeft = () => (
+  <TouchableOpacity
+    onPress={() => Actions.pop()}
+    style={{ height: 20, marginTop: 20, marginLeft: 10 }}>
+    <Icon name="chevron-left" size={40} color={Colors.WHITE} style={{ marginTop: 0 }} />
+  </TouchableOpacity>
+);
 
 class RouterComponent extends Component {
   render() {
@@ -100,8 +114,9 @@ class RouterComponent extends Component {
               key="createAccount"
               component={CreateAccount}
               onLeft={() => Actions.pop()}
-              leftTitle={arrowLeft}
-              //hideNavBar
+              renderLeftButton={() => <NavButton name="chevron-left" onPress={() => Actions.pop()} />}
+              leftButtonStyle={stylesLocal.leftNavButton}
+              // navigationBarStyle={stylesLocal.navBar}
               navTransparent
             />
           </Scene>
@@ -111,6 +126,17 @@ class RouterComponent extends Component {
   }
 }
 
+const stylesLocal = StyleSheet.create({
+  navBar: {
+    backgroundColor: 'transparent',
+    height: 60,
+  },
+  leftNavButton: {
+    backgroundColor: '#FF00FF',
+    lineHeight: 30,
+    zIndex: 1000,
+  },
+});
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });

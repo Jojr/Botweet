@@ -18,6 +18,7 @@ import {
   Text,
   ImageBackground,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { I18n } from '@aws-amplify/core';
 import { connect } from 'react-redux';
@@ -28,7 +29,6 @@ import * as Animatable from 'react-native-animatable';
 // import { loginUser } from '_actions';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
 import { TitleTextInput, ButtonText, MyStatusBar, PasswordVisibility } from '_atoms';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 /* Compose animatable component */
 AnimatedScrollView = Animatable.createAnimatableComponent(ScrollView);
@@ -116,6 +116,8 @@ class LoginScene extends Component {
                 autoCorrect={false}
                 backgroundColor={Colors.TRANSPARENCY}
                 color={Colors.WHITE}
+                returnKeyLabel="next"
+                returnKeyType="next"
                 // updateMasterState={this._updateMasterState}
               />
               <PasswordVisibility
@@ -128,7 +130,14 @@ class LoginScene extends Component {
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                 onPress={() => this.devAskingJobAlert()}
               >
-                <Text style={[Typography.FONT_REGULAR, StylesLocal.text]}>{I18n.get('Forgot password?')}</Text>
+                <Text style={[
+                  Typography.FONT_REGULAR,
+                  StylesLocal.text,
+                  StylesLocal.underline,
+                ]}
+                >
+                  {I18n.get('Forgot password?')}
+                </Text>
               </TouchableOpacity>
             </View>
             <View style={[StylesLocal.fieldWrapper]}>
@@ -186,6 +195,9 @@ const StylesLocal = StyleSheet.create({
   text: {
     color: Colors.WHITE,
     fontSize: Typography.FONT_SIZE_20,
+  },
+  underline: {
+    textDecorationLine: 'underline',
   }
 });
 
