@@ -1,7 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable no-trailing-spaces */
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, Easing, Animated } from 'react-native';
 import {
   Scene,
   Router,
@@ -11,17 +11,18 @@ import {
   Drawer,
   ActionConst,
 } from 'react-native-router-flux';
+import { StackViewStyleInterpolator } from 'react-navigation-stack';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
-import { NavButton } from '_atoms';
+import { NavButton, TabNavButton } from '_atoms';
 
 /* Import Actions */
 import * as authActions from '../redux/actions/auth';
 
 /* Scenes components */
-import { Login, CreateAccount } from '../scenes';
+import { Login, CreateAccount, Home } from '../scenes';
 //import SideBar from '../SideBar';
 
 /* Ícone menu Drawer */
@@ -36,20 +37,57 @@ const myIcon = (
   />
 );
 
-/* Nav icons */
-const arrowLeft2 = (
-  <View style={{ marginTop: 30 }}>
-    <Icon name="chevron-left" size={35} color={Colors.WHITE} style={{ paddingTop: 10 }} />
-  </View>
-);
+let CollapseExpand = (index, position) => {
+  const inputRange = [index - 1, index, index + 1];
+  const opacity = position.interpolate({
+    inputRange,
+    outputRange: [0, 1, 1],
+  });
 
-const ArrowLeft = () => (
-  <TouchableOpacity
-    onPress={() => Actions.pop()}
-    style={{ height: 20, marginTop: 20, marginLeft: 10 }}>
-    <Icon name="chevron-left" size={40} color={Colors.WHITE} style={{ marginTop: 0 }} />
-  </TouchableOpacity>
-);
+  const scaleY = position.interpolate({
+    inputRange,
+    outputRange: ([0, 1, 1]),
+  });
+
+  return {
+    opacity,
+    transform: [
+      { scaleY }
+    ]
+  };
+};
+
+let SlideFromRight = (index, position, width) => {
+  const inputRange = [index - 1, index, index + 1];
+  const translateX = position.interpolate({
+    inputRange: [index - 1, index, index + 1],
+    outputRange: [width, 0, 0]
+  })
+  const slideFromRight = { transform: [{ translateX }] }
+  return slideFromRight
+};
+
+const transitionConfig = () => {
+  return {
+    transitionSpec: {
+      duration: 750,
+      easing: Easing.out(Easing.poly(4)),
+      timing: Animated.timing,
+      useNativeDriver: true,
+    },
+    screenInterpolator: (sceneProps) => {
+      const { layout, position, scene } = sceneProps;
+      const width = layout.initWidth;
+      const { index, route } = scene
+      const params = route.params || {}; // <- That's new
+      const transition = params.transition || 'default'; // <- That's new
+      return {
+        collapseExpand: CollapseExpand(index, position),
+        default: SlideFromRight(index, position, width),
+      }[transition];
+    },
+  };
+};
 
 class RouterComponent extends Component {
   render() {
@@ -73,34 +111,64 @@ class RouterComponent extends Component {
             contentComponent={Login}
             drawerPosition="right"
             navTransparent
+            
           >
-
-            {/* Put all relative scenes inside the same stack navigation */}
-            <Stack
+            <Scene
               key="main"
-              panHandlers={null}
-              // initial={this.props.isAuthenticated} // Define se esta cena é a inicial ou não true / false
-              initial // Debug: Define como true manualmente para ir direto para esta cena.
+              panHandlers={null} { ...StylesLocal }
+              tabs
+              tabBarStyle={StylesLocal.tabBarStyle}
+              default="home"
+              activeTintColor={Colors.PRIMARY}
+              inactiveTintColor={Colors.GRAY_DARK}
+              //hideTabBar
+              //transitionConfig={transitionConfig}
+              //headerLayoutPreset="center"
+              //modal
             >
-              {/* */}
+              {/* Put all relative scenes inside the same stack navigation */}
+              {/* Home Scene */}
               <Scene
-                type="reset" // This prop set the scene as initial flow, no backbutton effetc
-                key="login" // This prop set the name of scene. Call this name no navigate (ex. "Actions.login()")
-                component={Login} // Load the scene component
+                initial
+                key="home" // This prop set the name of scene. Call this name no navigate (ex. "Actions.login()")
+                component={Home} // Load the scene component
                 hideNavBar // Show or hide navbar
-                // navigationBarStyle={stylesLocal.navBar}
                 navTransparent // Set transparency on navbar
+                icon={TabNavButton}
+                iconName="home"
+                title={() => ''}
+                titleStyle={StylesLocal.tabText}
               />
-            </Stack>
+              <Scene
+                key="acc"
+                component={CreateAccount}
+                hideNavBar
+                navTransparent
+                icon={TabNavButton}
+                iconName="message-square"
+                title={() => ''}
+                titleStyle={StylesLocal.tabText}
+              />
+              <Scene
+                key="acc2"
+                component={Login}
+                hideNavBar
+                navTransparent
+                icon={TabNavButton}
+                iconName="user"
+                title={() => ''}
+                titleStyle={StylesLocal.tabText}
+              />
+            </Scene>
           </Drawer>
+          
 
-          {/* Not authenticaded flow */}
+          {/* Authenticaded flow */}
           <Scene
-            initial={!this.props.isAuthenticated}
+            // initial={!this.props.isAuthenticated}
             key="auth"
             panHandlers={null}
           >
-
             {/* Login scene */}
             <Scene
               type="reset"
@@ -115,8 +183,8 @@ class RouterComponent extends Component {
               component={CreateAccount}
               onLeft={() => Actions.pop()}
               renderLeftButton={() => <NavButton name="chevron-left" onPress={() => Actions.pop()} />}
-              leftButtonStyle={stylesLocal.leftNavButton}
-              // navigationBarStyle={stylesLocal.navBar}
+              leftButtonStyle={StylesLocal.leftNavButton}
+              // navigationBarStyle={StylesLocal.navBar}
               navTransparent
             />
           </Scene>
@@ -126,10 +194,16 @@ class RouterComponent extends Component {
   }
 }
 
-const stylesLocal = StyleSheet.create({
+const StylesLocal = StyleSheet.create({
   navBar: {
     backgroundColor: 'transparent',
     height: 60,
+  },
+  tabBarStyle: {
+    height: 50,
+    backgroundColor: Colors.GRAY_MEDIUM,
+    // backgroundColor: '#000000',
+    // borderColor: 'transparent',
   },
   leftNavButton: {
     backgroundColor: '#FF00FF',
