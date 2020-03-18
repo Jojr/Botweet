@@ -12,6 +12,8 @@ import {
   ActionConst,
 } from 'react-native-router-flux';
 import { StackViewStyleInterpolator } from 'react-navigation-stack';
+// import { createStackNavigator, TransitionPresets } from 'react-navigation-stack';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -37,63 +39,24 @@ const myIcon = (
   />
 );
 
-let CollapseExpand = (index, position) => {
-  const inputRange = [index - 1, index, index + 1];
-  const opacity = position.interpolate({
-    inputRange,
-    outputRange: [0, 1, 1],
-  });
-
-  const scaleY = position.interpolate({
-    inputRange,
-    outputRange: ([0, 1, 1]),
-  });
-
-  return {
-    opacity,
-    transform: [
-      { scaleY }
-    ]
-  };
-};
-
-let SlideFromRight = (index, position, width) => {
-  const inputRange = [index - 1, index, index + 1];
-  const translateX = position.interpolate({
-    inputRange: [index - 1, index, index + 1],
-    outputRange: [width, 0, 0]
-  })
-  const slideFromRight = { transform: [{ translateX }] }
-  return slideFromRight
-};
-
-const transitionConfig = () => {
-  return {
-    transitionSpec: {
-      duration: 750,
-      easing: Easing.out(Easing.poly(4)),
-      timing: Animated.timing,
-      useNativeDriver: true,
-    },
-    screenInterpolator: (sceneProps) => {
-      const { layout, position, scene } = sceneProps;
-      const width = layout.initWidth;
-      const { index, route } = scene
-      const params = route.params || {}; // <- That's new
-      const transition = params.transition || 'default'; // <- That's new
-      return {
-        collapseExpand: CollapseExpand(index, position),
-        default: SlideFromRight(index, position, width),
-      }[transition];
-    },
-  };
-};
+const screenForFadeFromBottom = () => ({
+  screenInterpolator: StackViewStyleInterpolator.forFadeFromBottomAndroid,
+});
 
 class RouterComponent extends Component {
   render() {
     return (
       <Router>
-        <Scene key="root" hideNavBar hideTabBar>
+        <Scene
+          key="root"
+          hideNavBar
+          hideTabBar
+          transitionConfig={screenForFadeFromBottom}
+          /* transitionConfig={() => { 
+            console.log('transitionConfigurer');
+            return null;
+          }} */
+        >
           {/* Start Authenticated flow */}
           {/* Drawer menu */}
           <Drawer
@@ -111,25 +74,20 @@ class RouterComponent extends Component {
             contentComponent={Login}
             drawerPosition="right"
             navTransparent
-            
           >
             <Scene
               key="main"
-              panHandlers={null} { ...StylesLocal }
               tabs
               tabBarStyle={StylesLocal.tabBarStyle}
               default="home"
               activeTintColor={Colors.PRIMARY}
               inactiveTintColor={Colors.GRAY_DARK}
-              //hideTabBar
-              //transitionConfig={transitionConfig}
-              //headerLayoutPreset="center"
-              //modal
+              transitionConfig={screenForFadeFromBottom}
             >
               {/* Put all relative scenes inside the same stack navigation */}
               {/* Home Scene */}
               <Scene
-                initial
+                // initial
                 key="home" // This prop set the name of scene. Call this name no navigate (ex. "Actions.login()")
                 component={Home} // Load the scene component
                 hideNavBar // Show or hide navbar
@@ -165,9 +123,11 @@ class RouterComponent extends Component {
 
           {/* Authenticaded flow */}
           <Scene
+            // initial
             // initial={!this.props.isAuthenticated}
             key="auth"
             panHandlers={null}
+            transitionConfig={screenForFadeFromBottom}
           >
             {/* Login scene */}
             <Scene
