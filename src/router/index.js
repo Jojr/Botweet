@@ -1,7 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable no-trailing-spaces */
 import React, { Component } from 'react';
-import { StyleSheet, Easing, Animated } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import {
   Scene,
   Router,
@@ -12,7 +12,6 @@ import {
   ActionConst,
 } from 'react-native-router-flux';
 import { StackViewStyleInterpolator } from 'react-navigation-stack';
-// import { createStackNavigator, TransitionPresets } from 'react-navigation-stack';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -27,17 +26,22 @@ import * as authActions from '../redux/actions/auth';
 import { Login, CreateAccount, Home } from '../scenes';
 //import SideBar from '../SideBar';
 
-/* Ícone menu Drawer */
+/* Drawer menu icon */
 const myIcon = (
   <Icon
-    name="menu"
-    size={30}
-    color="#FFFFFF"
-    style={{
-      marginTop: 5,
-    }}
+    name="dots-vertical"
+    size={Typography.FONT_SIZE_30}
+    color={Colors.WHITE}
   />
 );
+const AppLogo = () => {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', marginTop: 0 }}>
+      <Image source={require('../assets/images/Logo.png')} style={[StylesLocal.headerLogoImage, {}]} />
+    </View>
+  );
+};
+
 
 const screenForFadeFromBottom = () => ({
   screenInterpolator: StackViewStyleInterpolator.forFadeFromBottomAndroid,
@@ -52,10 +56,6 @@ class RouterComponent extends Component {
           hideNavBar
           hideTabBar
           transitionConfig={screenForFadeFromBottom}
-          /* transitionConfig={() => { 
-            console.log('transitionConfigurer');
-            return null;
-          }} */
         >
           {/* Start Authenticated flow */}
           {/* Drawer menu */}
@@ -90,12 +90,14 @@ class RouterComponent extends Component {
                 // initial
                 key="home" // This prop set the name of scene. Call this name no navigate (ex. "Actions.login()")
                 component={Home} // Load the scene component
-                hideNavBar // Show or hide navbar
-                navTransparent // Set transparency on navbar
+                // hideNavBar // Show or hide navbar
+                // navTransparent // Set transparency on navbar
                 icon={TabNavButton}
                 iconName="home"
                 title={() => ''}
                 titleStyle={StylesLocal.tabText}
+                navigationBarStyle={StylesLocal.navBar}
+                renderTitle={() => <AppLogo />}
               />
               <Scene
                 key="acc"
@@ -156,19 +158,23 @@ class RouterComponent extends Component {
 
 const StylesLocal = StyleSheet.create({
   navBar: {
-    backgroundColor: 'transparent',
+    backgroundColor: Colors.PRIMARY,
     height: 60,
+    borderBottomWidth: 0,
   },
   tabBarStyle: {
     height: 50,
-    backgroundColor: Colors.GRAY_MEDIUM,
-    // backgroundColor: '#000000',
-    // borderColor: 'transparent',
+    backgroundColor: Colors.WHITE,
+    borderTopWidth: 0,
   },
   leftNavButton: {
     backgroundColor: '#FF00FF',
     lineHeight: 30,
     zIndex: 1000,
+  },
+  headerLogoImage: {
+    resizeMode: 'contain',
+    height: Typography.FONT_SIZE_35,
   },
 });
 const mapStateToProps = (state) => ({

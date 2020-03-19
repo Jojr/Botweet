@@ -10,6 +10,7 @@ const portuguese = {
     'Create account': 'Criar conta',
     or: 'ou',
     'Need help': 'Preciso de ajuda',
+    '(Edited)': '(Editado)',
   }
 };
 

@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Platform, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { Colors } from '_styles';
-
-const marginTop = Platform.OS === 'ios' ? 0 : 0;
-const height = Platform.OS === 'ios' ? 0 : 0;
-const TabNavButton2 = ({ name, color }) => (
-  <View
-    style={{ justifyContent: 'center' }}
-  >
-    <Icon name={name} size={40} color={color || Colors.PRIMARY} style={{ marginTop: 0 }} />
-  </View>
-);
+import { Typography } from '_styles';
 
 class TabNavButton extends Component {
   render() {
@@ -22,7 +12,7 @@ class TabNavButton extends Component {
 
     const componentBody = (
       <SafeAreaView style={{ height: 40, marginTop: 20, flexDirection: 'column', alignItems: 'center', alignSelf: 'center' }}>
-        <Icon style={{ color }} name={iconName} size={35} />
+        <Icon style={{ color }} name={iconName} size={Typography.FONT_SIZE_30} />
       </SafeAreaView>
     );
     return componentBody;
