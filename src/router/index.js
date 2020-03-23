@@ -76,6 +76,7 @@ class RouterComponent extends Component {
             navTransparent
           >
             <Scene
+              // initial={this.props.isAuthenticated}
               key="main"
               tabs
               tabBarStyle={StylesLocal.tabBarStyle}
@@ -123,10 +124,9 @@ class RouterComponent extends Component {
           </Drawer>
           
 
-          {/* Authenticaded flow */}
+          {/* Unauthenticaded flow */}
           <Scene
-            // initial
-            // initial={!this.props.isAuthenticated}
+            initial={!this.props.isAuthenticated}
             key="auth"
             panHandlers={null}
             transitionConfig={screenForFadeFromBottom}

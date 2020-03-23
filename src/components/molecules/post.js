@@ -1,11 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity, Platform } from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { I18n } from '@aws-amplify/core';
+import moment from 'moment/min/moment-with-locales';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
-
-const marginTop = Platform.OS === 'ios' ? 0 : 40;
-const height = Platform.OS === 'ios' ? null : 60;
 
 const Post = ({ profileImage, name, isEdited, postContent, upVotes, downVotes, isOwner, date }) => (
   <View style={StylesLocal.container}>
@@ -18,26 +16,26 @@ const Post = ({ profileImage, name, isEdited, postContent, upVotes, downVotes, i
         />
       </View>
       <View style={[StylesLocal.itemWrapper, { width: '60%' }]}>
-        <Text style={[Typography.FONT_REGULAR, StylesLocal.nameText]}>
+        <Text style={[Typography.FONT_BOLD, StylesLocal.nameText]}>
           {name || 'Mock name'}
         </Text>
       </View>
       <View style={[StylesLocal.itemWrapper, { width: '25%', alignItems: 'flex-end' }]}>
-        <Text style={[Typography.FONT_REGULAR, StylesLocal.nameText, { fontSize: Typography.FONT_SIZE_10 }]}>
+        <Text style={[Typography.FONT_THIN, StylesLocal.nameText, { fontSize: Typography.FONT_SIZE_12 }]}>
           {isEdited ? I18n.get('(Edited)') : ''}
         </Text>
       </View>
     </View>
     {/* Post content section */}
     <View style={StylesLocal.postWrapper}>
-      <Text style={[Typography.FONT_REGULAR, StylesLocal.postText]}>
+      <Text ellipsizeMode="tail" style={[Typography.FONT_REGULAR, StylesLocal.postText]}>
         {postContent || 'est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla.'}
       </Text>
     </View>
     {/* Votes and date */}
     <View style={{ flexDirection: 'row', marginLeft: Spacing.SCALE_55 }}>
       <View style={{ flexDirection: 'row', width: '60%' }}>
-        {/* Down votes */}
+        {/* Up votes */}
         <TouchableOpacity
           hitSlop={{ top: 5, bottom: 5, left: 5, right: 10 }}
           style={[StylesLocal.itemWrapper, { width: Spacing.SCALE_26 }]}
@@ -46,7 +44,7 @@ const Post = ({ profileImage, name, isEdited, postContent, upVotes, downVotes, i
         </TouchableOpacity>
         <View style={[StylesLocal.itemWrapper, { width: Spacing.SCALE_26 }]}>
           <Text style={[Typography.FONT_REGULAR, StylesLocal.nameText, StylesLocal.numberText]}>
-            {upVotes || '10'}
+            {upVotes.toString() || '10'}
           </Text>
         </View>
         {/* Down votes */}
@@ -58,7 +56,7 @@ const Post = ({ profileImage, name, isEdited, postContent, upVotes, downVotes, i
         </TouchableOpacity>
         <View style={[StylesLocal.itemWrapper, { width: Spacing.SCALE_26 }]}>
           <Text style={[Typography.FONT_REGULAR, StylesLocal.nameText, StylesLocal.numberText]}>
-            {downVotes || '0'}
+            {downVotes.toString() || '0'}
           </Text>
         </View>
         {/* If is owner show edit button */}
@@ -75,7 +73,7 @@ const Post = ({ profileImage, name, isEdited, postContent, upVotes, downVotes, i
       {/* Post date */}
       <View style={[StylesLocal.itemWrapper, { width: '40%', alignItems: 'flex-end' }]}>
         <Text style={[Typography.FONT_REGULAR, StylesLocal.nameText, StylesLocal.numberText]}>
-          {date || '12/03/2020 14:00'}
+          {moment(date).locale('pt-BR').format('DD MMM YYYY - HH[h]mm')}
         </Text>
       </View>
     </View>
@@ -104,7 +102,7 @@ const StylesLocal = StyleSheet.create({
     marginRight: Spacing.SCALE_12
   },
   nameText: {
-    color: Colors.GRAY_DARK,
+    color: Colors.GRAY_MEDIUM,
     fontSize: Typography.FONT_SIZE_14
   },
   postText: {

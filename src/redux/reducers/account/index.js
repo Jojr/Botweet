@@ -1,25 +1,21 @@
-import * as types from '../../actions/auth/types';
+import * as types from '../../actions/Account/types';
 
 const initialState = {
-  isAuthenticated: false,
-  userData: null
+  accountList: [],
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    /* case types.PERSIST_REHYDRATE: {
-      return { ...state };
-    } */
     case types.PURGE: {
       console.log('PURGING STORE!!!!');
       return { ...initialState };
     }
-    case types.LOGIN: {
-      console.log('Login complete');
+    /* Add account to list for fake request purposes */
+    case types.CREATE_ACCOUNT: {
+      console.log('Add account');
       return {
         ...state,
-        isAuthenticated: true,
-        userData: action.payload,
+        accountList: [...state.accountList, action.payload],
       };
     }
     default:

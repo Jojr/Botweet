@@ -1,14 +1,19 @@
 import { scaleFont } from './mixins';
 
 // FONT FAMILY
+export const FONT_FAMILY_THIN = 'Montserrat-Thin';
+export const FONT_FAMILY_LIGHT = 'Montserrat-Light';
 export const FONT_FAMILY_REGULAR = 'Montserrat-Regular';
 export const FONT_FAMILY_BOLD = 'Montserrat-Bold';
 
 // FONT WEIGHT
+export const FONT_WEIGHT_THIN = '100';
+export const FONT_WEIGHT_LIGHT = '300';
 export const FONT_WEIGHT_REGULAR = '400';
-export const FONT_WEIGHT_BOLD = '600';
+export const FONT_WEIGHT_BOLD = '700';
 
 // FONT SIZE
+export const FONT_SIZE_55 = scaleFont(55);
 export const FONT_SIZE_50 = scaleFont(50);
 export const FONT_SIZE_40 = scaleFont(40);
 export const FONT_SIZE_35 = scaleFont(35);
@@ -28,6 +33,16 @@ export const LINE_HEIGHT_20 = scaleFont(20);
 export const LINE_HEIGHT_16 = scaleFont(16);
 
 // FONT STYLE
+export const FONT_THIN = {
+  fontFamily: FONT_FAMILY_THIN,
+  fontWeight: FONT_WEIGHT_THIN,
+};
+
+export const FONT_LIGHT = {
+  fontFamily: FONT_FAMILY_LIGHT,
+  fontWeight: FONT_WEIGHT_LIGHT,
+};
+
 export const FONT_REGULAR = {
   fontFamily: FONT_FAMILY_REGULAR,
   fontWeight: FONT_WEIGHT_REGULAR,

@@ -18,15 +18,18 @@ import {
   Text,
   Alert,
   TouchableOpacity,
+  Picker,
 } from 'react-native';
 import { I18n } from '@aws-amplify/core';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-// import { loginUser } from '_actions';
-import { Typography, Spacing, Colors, Mixins } from '_styles';
-import { TitleTextInput, ButtonText, MyStatusBar, PasswordVisibility } from '_atoms';
+// import Account from '_actions';
+import * as Account from '_actions/Account';
+import { Typography, Spacing, Colors } from '_styles';
+import { TitleTextInput, ButtonText, MyStatusBar, PasswordVisibility, PickerText } from '_atoms';
 
 class CreateAccountScene extends Component {
   constructor() {
@@ -35,6 +38,7 @@ class CreateAccountScene extends Component {
       backgroundLoaded: false,
       name: '',
       email: '',
+      gender: null,
       password: '',
       confirmPassword: '',
       hidePassword: true,
@@ -55,6 +59,19 @@ class CreateAccountScene extends Component {
       {/* cancelable: false */},
     );
   };
+
+  handleSave = () => {
+    const { createAccount } = this.props;
+    const data = this.state;
+    const formData = {
+      name: data.name,
+      email: data.email,
+      gender: data.gender,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+    };
+    createAccount(formData);
+  }
 
   render() {
     const { name, email, password, confirmPassword, hidePassword } = this.state;
@@ -96,7 +113,6 @@ class CreateAccountScene extends Component {
                 autoCorrect={false}
                 backgroundColor={Colors.TRANSPARENCY}
                 color={Colors.WHITE}
-                // updateMasterState={this._updateMasterState}
               />
             </View>
             <View style={StylesLocal.fieldWrapper}>
@@ -110,7 +126,34 @@ class CreateAccountScene extends Component {
                 autoCorrect={false}
                 backgroundColor={Colors.TRANSPARENCY}
                 color={Colors.WHITE}
-                // updateMasterState={this._updateMasterState}
+              />
+            </View>
+            <View style={StylesLocal.fieldWrapper}>
+              <PickerText
+                backgroundColor={Colors.TRANSPARENCY}
+                color={Colors.WHITE}
+                doneText={I18n.get('Done')}
+                placeholder={
+                  {
+                    label: I18n.get('Gender'),
+                    value: null,
+                  }
+                }
+                options={[
+                  {
+                    label: I18n.get('Feminine'),
+                    value: 'female',
+                  },
+                  {
+                    label: I18n.get('Masculine'),
+                    value: 'male',
+                  },
+                  {
+                    label: I18n.get('Other'),
+                    value: 'other',
+                  }
+                ]}
+                onValueChange={(value) => this.setState({ gender: value })}
               />
             </View>
             <View style={StylesLocal.fieldWrapper}>
@@ -124,7 +167,6 @@ class CreateAccountScene extends Component {
                 autoCorrect={false}
                 backgroundColor={Colors.TRANSPARENCY}
                 color={Colors.WHITE}
-                // updateMasterState={this._updateMasterState}
               />
               <PasswordVisibility
                 value={hidePassword}
@@ -142,7 +184,6 @@ class CreateAccountScene extends Component {
                 autoCorrect={false}
                 backgroundColor={Colors.TRANSPARENCY}
                 color={Colors.WHITE}
-                // updateMasterState={this._updateMasterState}
               />
               <PasswordVisibility
                 value={hidePassword}
@@ -153,6 +194,7 @@ class CreateAccountScene extends Component {
               <ButtonText
                 backgroundColor={Colors.GREEN}
                 color={Colors.WHITE}
+                onPress={this.handleSave}
               >
                 {I18n.get('Create account')}
               </ButtonText>
@@ -189,7 +231,6 @@ const StylesLocal = StyleSheet.create({
     width: 180,
   },
   formWrapper: {
-    //paddingTop: '20%',
     width: '85%',
     alignSelf: 'center',
   },
@@ -209,6 +250,10 @@ const StylesLocal = StyleSheet.create({
 const mapStateToProps = (state) => ({
   // login: state.auth.login,
 });
-export default connect(mapStateToProps, {
-  // loginChanged,
-})(CreateAccountScene);
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(Account, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CreateAccountScene);

@@ -12,9 +12,9 @@ export const WARNING = '#ffae00';
 export const ALERT = '#cc4b37';
 
 // GRAYSCALE
-export const GRAY_LIGHT = '#EFEEEE';
-export const GRAY_MEDIUM = '#D8D8D8';
-export const GRAY_DARK = '#A4A1A1';
+export const GRAY_LIGHT = '#FAFAFA';
+export const GRAY_MEDIUM = '#BAB9B9';
+export const GRAY_DARK = '#727171';
 
 /* Background */
 export const BACKGROUND_PATH = require('../assets/images/BackGroundImage.png');
