@@ -25,10 +25,17 @@ export const createAccount = (formData) => {
     const formSave = {
       ...formData,
       userId: validation.idGenerator(),
-      profileImage: 'https://api.adorable.io/avatars/mouth/mouth6',
+      profileImage: 'https://reactnative.dev/img/tiny_logo.png',
     };
     dispatch({ type: types.CREATE_ACCOUNT, payload: formSave });
     dispatch({ type: typesAuth.LOGIN, payload: formSave });
+    Alert.alert(
+      `${I18n.get('Bem vindo(a)')} ${formSave.name}!`,
+      `${I18n.get('We apreciate your presence here')}.`,
+      [
+        { text: 'Ok' },
+      ],
+    );
     /* Redirect to authenticated flow */
     Actions.main();
   };

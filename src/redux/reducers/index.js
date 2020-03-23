@@ -25,7 +25,8 @@ const postPersist = {
 };
 
 export default combineReducers({
-  auth: persistReducer(authPersistConfig, auth),
+  // auth: persistReducer(authPersistConfig, auth),
+  auth,
   account: persistReducer(accountsPersist, account),
   // posts: persistReducer(postPersist, posts),
   posts,

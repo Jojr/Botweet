@@ -49,6 +49,17 @@ class HomeScene extends Component {
       showModal: false,
       refresh: false,
     };
+    this.flatListRef = React.createRef();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { postsList } = this.props;
+    if (
+      postsList !== prevProps.postsList
+    ) {
+      // console.log('postsList é diferente de prev');
+      this.flatListRef.scrollToOffset({ animated: true, offset: 0 });
+    }
   }
 
   devAskingJobAlert = () => {
@@ -66,9 +77,14 @@ class HomeScene extends Component {
     this.setState({ [attrName]: value });
   };
 
-  onListChange = () => {
-    this.flatListRef.scrollToOffset({ animated: true, offset: 0 });
-  };
+  isPostOwner = (ownerId) => {
+    console.log(ownerId);
+    const { email } = this.props.userData;
+    if (ownerId === email) {
+      return true;
+    }
+    return false;
+  }
 
   render() {
     const { name, email, gender, profileImage } = this.props.userData;
@@ -77,9 +93,12 @@ class HomeScene extends Component {
     /* Ordened post list by date desc */
     const ordenedPostList = postsList;
     ordenedPostList.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return dateB - dateA;
+      // const dateA = new Date(a.date).getTime();
+      // const dateB = new Date(b.date).getTime();
+      // return dateB - dateA;
+      if (a.date > b.date) return -1;
+      if (a.date < b.date) return 1;
+      return 0;
     });
 
     /* Header animation settings */
@@ -147,9 +166,11 @@ class HomeScene extends Component {
         <View style={{ height: '100%', marginTop: HEADER_EXPANDED_HEIGHT, marginmarginBottom: 40 }}>
           <FlatList
             ref={(ref) => { this.flatListRef = ref; }}
-            extraData={this.state.refresh}
+            keyExtractor={(item) => item.id}
+            getItemLayout={this.getItemLayout}
+            extraData={this.props}
             onEndReachedThreshold={0.5}
-            onRefresh={() => this.onListChange()}
+            onRefresh={() => console.log('refreshing')}
             refreshing={false}
             data={ordenedPostList}
             renderItem={({ item }) => (
@@ -161,11 +182,11 @@ class HomeScene extends Component {
                 postContent={item.postContent}
                 upVotes={item.upVotes}
                 downVotes={item.downVotes}
-                isOwner={item.isOwner}
+                ownerID={item.ownerID}
+                currentUserID={email}
                 date={item.date}
               />
             )}
-            keyExtractor={(item) => item.id}
             onScroll={Animated.event(
               [{
                 nativeEvent: {

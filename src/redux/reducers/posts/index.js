@@ -11,9 +11,8 @@ const initialState = {
       postContent: 'est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla.',
       upVotes: 15,
       downVotes: 0,
-      isOwner: true,
       ownerID: '',
-      date: moment('2020-03-03 14:00').format('YYYY-MM-DD HH:mm')
+      date: moment('2020-03-03 14:00:00').format('YYYY-MM-DD HH:mm:ss')
     },
     {
       id: '2',
@@ -23,9 +22,8 @@ const initialState = {
       postContent: 'est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla.',
       upVotes: 15,
       downVotes: 0,
-      isOwner: false,
       ownerID: '',
-      date: moment('2020-03-05 14:00').format('YYYY-MM-DD HH:mm')
+      date: moment('2020-03-05 14:00:00').format('YYYY-MM-DD HH:mm:ss')
     },
     {
       id: '3',
@@ -35,9 +33,8 @@ const initialState = {
       postContent: 'est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla.',
       upVotes: 15,
       downVotes: 0,
-      isOwner: true,
       ownerID: '',
-      date: moment('2020-03-06 14:00').format('YYYY-MM-DD HH:mm')
+      date: moment('2020-03-06 14:00:00').format('YYYY-MM-DD HH:mm:ss')
     },
     {
       id: '4',
@@ -47,9 +44,8 @@ const initialState = {
       postContent: 'est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla.',
       upVotes: 15,
       downVotes: 0,
-      isOwner: true,
       ownerID: '',
-      date: moment('2020-03-07 14:50').format('YYYY-MM-DD HH:mm')
+      date: moment('2020-03-07 14:50:00').format('YYYY-MM-DD HH:mm:ss')
     },
     {
       id: '5',
@@ -59,9 +55,8 @@ const initialState = {
       postContent: 'est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla.',
       upVotes: 15,
       downVotes: 0,
-      isOwner: true,
       ownerID: '',
-      date: moment('2020-03-10 14:00').format('YYYY-MM-DD HH:mm')
+      date: moment('2020-03-10 14:00:00').format('YYYY-MM-DD HH:mm:ss')
     },
     {
       id: '6',
@@ -71,9 +66,8 @@ const initialState = {
       postContent: 'est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla.',
       upVotes: 15,
       downVotes: 0,
-      isOwner: true,
       ownerID: '',
-      date: moment('2020-03-18 14:00').format('YYYY-MM-DD HH:mm')
+      date: moment('2020-03-18 14:00:00').format('YYYY-MM-DD HH:mm:ss')
     },
     {
       id: '7',
@@ -83,9 +77,8 @@ const initialState = {
       postContent: 'O dev que fez esse App precisa ser contratado urgentemente. Manda ele passar no RH.',
       upVotes: 1265,
       downVotes: 0,
-      isOwner: true,
       ownerID: '',
-      date: moment('2020-03-18 14:00').format('YYYY-MM-DD HH:mm')
+      date: moment('2020-03-18 14:00:00').format('YYYY-MM-DD HH:mm:ss')
     },
     {
       id: '8',
@@ -95,9 +88,8 @@ const initialState = {
       postContent: 'est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla.',
       upVotes: 15,
       downVotes: 0,
-      isOwner: true,
       ownerID: '',
-      date: moment('2020-03-19 14:00').format('YYYY-MM-DD HH:mm')
+      date: moment('2020-03-19 14:00:00').format('YYYY-MM-DD HH:mm:ss')
     },
   ]
 };

@@ -21,12 +21,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { I18n } from '@aws-amplify/core';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import SplashScreen from 'react-native-splash-screen';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as Animatable from 'react-native-animatable';
-// import { loginUser } from '_actions';
+import * as AuthActions from '_actions/auth';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
 import { TitleTextInput, ButtonText, MyStatusBar, PasswordVisibility } from '_atoms';
 
@@ -48,6 +49,7 @@ class LoginScene extends Component {
     SplashScreen.hide();
   }
 
+  /* Hire the dev :D */
   devAskingJobAlert = () => {
     Alert.alert(
       I18n.get('Alert'),
@@ -57,6 +59,13 @@ class LoginScene extends Component {
       ],
       {/* cancelable: false */},
     );
+  };
+
+  /* Hadle login */
+  handleLogin = () => {
+    const { loginUser } = this.props;
+    const { email, password } = this.state;
+    loginUser({ email, password });
   };
 
   render() {
@@ -144,6 +153,7 @@ class LoginScene extends Component {
               <ButtonText
                 backgroundColor={Colors.GREEN}
                 color={Colors.WHITE}
+                onPress={() => this.handleLogin()}
               >
                 {I18n.get('Enter')}
               </ButtonText>
@@ -204,6 +214,10 @@ const StylesLocal = StyleSheet.create({
 const mapStateToProps = (state) => ({
   // login: state.auth.login,
 });
-export default connect(mapStateToProps, {
-  // loginChanged,
-})(LoginScene);
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(AuthActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LoginScene);

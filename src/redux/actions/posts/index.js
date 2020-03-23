@@ -20,7 +20,7 @@ export const savePost = (payload) => {
       downVotes: 0,
       isOwner: true,
       ownerID: userData.email,
-      date: moment().format('YYYY-MM-DD HH:mm'),
+      date: moment().format('YYYY-MM-DD HH:mm:ss'),
     };
     dispatch({ type: types.ADD_POST, payload: newPost });
   };

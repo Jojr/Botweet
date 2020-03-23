@@ -126,7 +126,8 @@ class RouterComponent extends Component {
 
           {/* Unauthenticaded flow */}
           <Scene
-            initial={!this.props.isAuthenticated}
+            initial
+            // initial={!this.props.isAuthenticated}
             key="auth"
             panHandlers={null}
             transitionConfig={screenForFadeFromBottom}

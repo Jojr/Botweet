@@ -3,9 +3,19 @@ import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { I18n } from '@aws-amplify/core';
 import moment from 'moment/min/moment-with-locales';
-import { Typography, Spacing, Colors, Mixins } from '_styles';
+import { Typography, Spacing, Colors } from '_styles';
 
-const Post = ({ profileImage, name, isEdited, postContent, upVotes, downVotes, isOwner, date }) => (
+const Post = ({
+  profileImage,
+  name,
+  isEdited,
+  postContent,
+  upVotes,
+  downVotes,
+  ownerID,
+  currentUserID,
+  date
+}) => (
   <View style={StylesLocal.container}>
     {/* Profile and edited status section */}
     <View style={{ flexDirection: 'row' }}>
@@ -60,7 +70,7 @@ const Post = ({ profileImage, name, isEdited, postContent, upVotes, downVotes, i
           </Text>
         </View>
         {/* If is owner show edit button */}
-        {isOwner
+        {currentUserID === ownerID
         && (
         <TouchableOpacity
           hitSlop={{ top: 5, bottom: 5, left: 5, right: 10 }}

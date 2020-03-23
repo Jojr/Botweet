@@ -1,10 +1,13 @@
 const portuguese = {
   pt_BR: {
+    /* Login */
     'Enter': 'Entrar',
     'Create new account': 'Criar nova conta',
     'or': 'ou',
     'Need help': 'Preciso de ajuda',
+    '(You already have an account?)': '(Você já tem uma conta?)',
     '(Edited)': '(Editado)',
+    'We apreciate your presence here': 'Obrigado por se registrar',
     'Welcome_male': 'Bem vindo',
     'Welcome_female': 'Bem vinda',
     'What you thinking now?': 'O que você está pensando?',
@@ -31,6 +34,10 @@ const portuguese = {
     'wrong or invalid': 'incorreto ou inválido',
     'Check if the field and try again.': 'Verifique o campo e tente novamente',
     'Field':'Campo',
+    /* Post */
+    'Save post': 'Salvar postagem',
+    'Do you want to save this post?': 'Você deseja publicar esta postagem?',
+    'Save': 'Salvar',
   }
 };
 

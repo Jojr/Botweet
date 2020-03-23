@@ -29,7 +29,23 @@ export function StringNullOrEmptyValidation(formData) {
   }
   return [true, null];
 }
-
+/* Generate unique ID to post */
 export const idGenerator = () => {
   return `_${Math.random().toString(36).substr(2, 9)}`;
+};
+
+/* Filter login | Fake request on persisted store */
+export const userVerify = (login, accountList) => {
+  const emailExists = accountList.filter((d) => d.email === login.email);
+  const passwordExists = accountList.filter((d) => d.password === login.password);
+  // console.log(emailExists.length);
+  // console.log(passwordExists.length);
+
+  if (emailExists.length <= 0) {
+    return [false, I18n.get('Email')];
+  }
+  if (passwordExists.length <= 0) {
+    return [false, I18n.get('Password')];
+  }
+  return [true, emailExists];
 };
