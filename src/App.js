@@ -7,7 +7,9 @@ import Orientation from 'react-native-orientation-locker';
 import { I18n } from '@aws-amplify/core';
 import Router from './router';
 import { store, persistor } from './store';
+import { SpinnerLoading } from '_molecules';
 
+/* Import translation */
 import portuguese from './config/i18n/i18n_pt_BR';
 
 I18n.putVocabularies(portuguese);
@@ -33,6 +35,7 @@ class App extends Component {
       return (
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
+            <SpinnerLoading />
             <Router />
           </PersistGate>
         </Provider>
