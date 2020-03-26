@@ -1,8 +1,9 @@
 import { Alert } from 'react-native';
-import * as types from './types';
-import * as typesAuth from '../auth/types';
 import { Actions } from 'react-native-router-flux';
 import { I18n } from '@aws-amplify/core';
+import * as types from './types';
+import * as typesAuth from '../auth/types';
+import * as typesSystem from '../system/types';
 import * as validation from '../../../utils/validation';
 
 /* Fake Login with persisted data */
@@ -22,11 +23,16 @@ export const loginUser = (login) => {
       );
       return false;
     }
+    dispatch({ type: typesSystem.SPINNER_STATUS, payload: true });
     const userData = validation.userVerify(login, accountList)[1][0];
     // console.log(userData);
-    dispatch({ type: typesAuth.LOGIN, payload: userData });
-    /* Redirect to authenticated flow */
-    Actions.main();
+    /* Simulate api delay */
+    setTimeout(() => {
+      dispatch({ type: typesAuth.LOGIN, payload: userData });
+      // Redirect to authenticated flow
+      Actions.main();
+      dispatch({ type: typesSystem.SPINNER_STATUS, payload: false });
+    }, 2000);
   };
 };
 

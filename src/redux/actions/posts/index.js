@@ -6,7 +6,7 @@ import { Actions } from '_actions';
 import { I18n } from '@aws-amplify/core';
 import * as validation from '../../../utils/validation';
 
-/* Login */
+/* Save new post */
 export const savePost = (payload) => {
   return (dispatch, getState) => {
     const userData = getState().auth.userData;
@@ -23,6 +23,37 @@ export const savePost = (payload) => {
       date: moment().format('YYYY-MM-DD HH:mm:ss'),
     };
     dispatch({ type: types.ADD_POST, payload: newPost });
+  };
+};
+
+/* Edit post */
+export const editPost = (postContent, postId) => {
+  return (dispatch, getState) => {
+    const postData = getState().posts.postsList;
+    const foundIndex = postData.findIndex((x) => x.id === postId);
+    // console.log(postContent);
+    // const vote = postData[foundIndex].upVotes + 1;
+    dispatch({ type: types.EDIT_POST, payload: { foundIndex, postContent } });
+  };
+};
+
+/* Up votes */
+export const upVote = (postId) => {
+  return (dispatch, getState) => {
+    const postData = getState().posts.postsList;
+    const foundIndex = postData.findIndex((x) => x.id === postId);
+    const vote = postData[foundIndex].upVotes + 1;
+    dispatch({ type: types.UPVOTE, payload: { foundIndex, vote } });
+  };
+};
+
+/* Down votes */
+export const downVote = (postId) => {
+  return (dispatch, getState) => {
+    const postData = getState().posts.postsList;
+    const foundIndex = postData.findIndex((x) => x.id === postId);
+    const vote = postData[foundIndex].downVotes + 1;
+    dispatch({ type: types.DOWNVOTE, payload: { foundIndex, vote } });
   };
 };
 

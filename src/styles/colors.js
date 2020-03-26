@@ -5,6 +5,8 @@ export const WHITE = '#FFFFFF';
 export const BLACK = '#000000';
 export const GREEN = '#8CB52D';
 export const TRANSPARENCY = 'rgba(242, 163, 161, 0.75)';
+export const TRANSPARENCY_PRIMARY = 'rgba(165, 58, 44, 0.70)';
+export const TRANSPARENCY_SECONDARY = 'rgba(230, 54, 108, 0.70)';
 
 // ACTIONS
 export const SUCCESS = '#3adb76';

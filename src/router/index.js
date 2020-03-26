@@ -1,7 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable no-trailing-spaces */
 import React, { Component } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Text } from 'react-native';
 import {
   Scene,
   Router,
@@ -12,10 +13,10 @@ import {
   ActionConst,
 } from 'react-native-router-flux';
 import { StackViewStyleInterpolator } from 'react-navigation-stack';
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { I18n } from '@aws-amplify/core';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
 import { NavButton, TabNavButton } from '_atoms';
 
@@ -23,7 +24,7 @@ import { NavButton, TabNavButton } from '_atoms';
 import * as authActions from '../redux/actions/auth';
 
 /* Scenes components */
-import { Login, CreateAccount, Home } from '../scenes';
+import { Login, CreateAccount, Home, User } from '../scenes';
 //import SideBar from '../SideBar';
 
 /* Drawer menu icon */
@@ -101,22 +102,31 @@ class RouterComponent extends Component {
                 renderTitle={() => <AppLogo />}
               />
               <Scene
+                key="acc2"
+                component={User}
+                // hideNavBar
+                // navTransparent
+                icon={TabNavButton}
+                iconName="user"
+                title={() => ''}
+                titleStyle={StylesLocal.tabText}
+                navigationBarStyle={StylesLocal.navBar}
+                // title={I18n.get('Help')}
+                renderTitle={() => {
+                  return (
+                    <Text style={[Typography.FONT_BOLD, StylesLocal.titleText]}>
+                      {I18n.get('My posts')}
+                    </Text>
+                  );
+                }}
+              />
+              <Scene
                 key="acc"
                 component={CreateAccount}
                 hideNavBar
                 navTransparent
                 icon={TabNavButton}
-                iconName="message-square"
-                title={() => ''}
-                titleStyle={StylesLocal.tabText}
-              />
-              <Scene
-                key="acc2"
-                component={Login}
-                hideNavBar
-                navTransparent
-                icon={TabNavButton}
-                iconName="user"
+                iconName="terminal"
                 title={() => ''}
                 titleStyle={StylesLocal.tabText}
               />
@@ -126,8 +136,8 @@ class RouterComponent extends Component {
 
           {/* Unauthenticaded flow */}
           <Scene
-            initial
-            // initial={!this.props.isAuthenticated}
+            // initial
+            initial={!this.props.isAuthenticated}
             key="auth"
             panHandlers={null}
             transitionConfig={screenForFadeFromBottom}
@@ -160,13 +170,18 @@ class RouterComponent extends Component {
 const StylesLocal = StyleSheet.create({
   navBar: {
     backgroundColor: Colors.PRIMARY,
-    height: 60,
+    height: Spacing.SCALE_40,
     borderBottomWidth: 0,
   },
   tabBarStyle: {
     height: 50,
     backgroundColor: Colors.WHITE,
     borderTopWidth: 0,
+  },
+  titleText: {
+    color: Colors.WHITE,
+    fontSize: Typography.FONT_SIZE_16,
+    textTransform: 'uppercase',
   },
   leftNavButton: {
     backgroundColor: '#FF00FF',

@@ -24,6 +24,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as PostActions from '_actions/posts';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
+import { TitleTextInput, ButtonText, MyStatusBar, PasswordVisibility } from '_atoms';
 import { BaseHeader, Post, ProfilePicture, PlusModal } from '_molecules';
 
 /* Compose animatable component */
@@ -34,7 +35,7 @@ const HEADER_EXPANDED_HEIGHT = Spacing.SCALE_55;
 const HEADER_COLLAPSED_HEIGHT = 0;
 
 
-class HomeScene extends Component {
+class UserScene extends Component {
   constructor() {
     super();
     this.state = {
@@ -62,6 +63,8 @@ class HomeScene extends Component {
       if (refresh !== prevState.refresh) {
         this.flatListRef.scrollToOffset({ animated: true, offset: 0 });
       }
+      // console.log('postsList é diferente de prev');
+      
     }
   }
 
@@ -87,7 +90,7 @@ class HomeScene extends Component {
         I18n.get('Confirm'),
         `${I18n.get('You like it?')}`,
         [
-          { text: I18n.get('Cancel') },
+          { text: I18n.get('Cancel'), style: 'cancel' },
           {
             text: I18n.get('Sim'),
             onPress: () => {
@@ -96,13 +99,14 @@ class HomeScene extends Component {
             }
           },
         ],
+        { cancelable: false },
       );
     }
     Alert.alert(
       `${I18n.get('Confirm')}`,
       I18n.get('Well, maybe this is not good for you.'),
       [
-        { text: I18n.get('Cancel') },
+        { text: I18n.get('Cancel'), style: 'cancel' },
         {
           text: I18n.get("I don't like it"),
           onPress: () => {
@@ -111,6 +115,7 @@ class HomeScene extends Component {
           }
         },
       ],
+      { cancelable: true },
     );
   };
 
@@ -119,35 +124,15 @@ class HomeScene extends Component {
     const { postsList, savePost, editPost } = this.props;
     const { scrollY, showModal, refresh, isEditingPost, postContent } = this.state;
 
-    /* Ordened post list by date desc */
-    const ordenedPostList = postsList;
+    /* Filter current user posts */
+    const userPosts = postsList.filter((d) => d.ownerID === email);
+
+    /* Ordened user post list by date desc */
+    const ordenedPostList = userPosts;
     ordenedPostList.sort((a, b) => {
       if (a.date > b.date) return -1;
       if (a.date < b.date) return 1;
       return 0;
-    });
-
-    /* Header animation settings */
-    const headerHeight = scrollY.interpolate({
-      inputRange: [0, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
-      // outputRange: [0, 1],
-      outputRange: [HEADER_EXPANDED_HEIGHT, HEADER_COLLAPSED_HEIGHT],
-      extrapolate: 'clamp',
-    });
-    const headerOpacity = scrollY.interpolate({
-      inputRange: [1, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
-      outputRange: [1, 0],
-      extrapolate: 'clamp',
-    });
-    const headerMarginTop = scrollY.interpolate({
-      inputRange: [0, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
-      outputRange: [0, -HEADER_EXPANDED_HEIGHT],
-      extrapolate: 'clamp',
-    });
-    const imageMarginTop = scrollY.interpolate({
-      inputRange: [0, HEADER_EXPANDED_HEIGHT - HEADER_COLLAPSED_HEIGHT],
-      outputRange: [0, -20],
-      extrapolate: 'clamp',
     });
     return (
       <AnimatedSafeAreaView
@@ -158,38 +143,9 @@ class HomeScene extends Component {
         easing="ease-in-out-quint"
         useNativeDriver
       >
-        <Animated.View
-          style={{
-            height: headerHeight,
-            // opacity: headerOpacity,
-            marginTop: headerMarginTop,
-            // backgroundColor: '#FF00FF',
-            // marginBottom: headerMarginTop
-          }}
-        >
-          <BaseHeader
-            firstName={name}
-            surName=""
-            gender={gender}
-            address={email}
-            imageUrl={profileImage}
-          />
-          <Animated.View
-            style={{
-              opacity: headerOpacity,
-              position: 'absolute',
-              marginTop: imageMarginTop,
-              width: imageMarginTop,
-              height: imageMarginTop,
-            }}
-          >
-            <ProfilePicture
-              profileImage={profileImage}
-            />
-          </Animated.View>
-        </Animated.View>
+
         {/* Render Posts Flatlist */}
-        <View style={{ height: '100%', marginTop: HEADER_EXPANDED_HEIGHT, marginmarginBottom: 40 }}>
+        <View style={{ height: '100%', marginmarginBottom: 40 }}>
           <FlatList
             ref={(ref) => { this.flatListRef = ref; }}
             keyExtractor={(item) => item.id}
@@ -265,4 +221,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(PostActions, dispatc
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HomeScene);
+)(UserScene);

@@ -5,6 +5,7 @@ import { persistReducer } from 'redux-persist';
 import auth from './auth';
 import account from './account';
 import posts from './posts';
+import system from './system';
 
 const authPersistConfig = {
   key: 'auth',
@@ -27,7 +28,9 @@ const postPersist = {
 export default combineReducers({
   // auth: persistReducer(authPersistConfig, auth),
   auth,
-  account: persistReducer(accountsPersist, account),
-  // posts: persistReducer(postPersist, posts),
-  posts,
+  // account: persistReducer(accountsPersist, account),
+  account,
+  posts: persistReducer(postPersist, posts),
+  // posts,
+  system,
 });

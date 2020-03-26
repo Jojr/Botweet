@@ -6,6 +6,7 @@ import moment from 'moment/min/moment-with-locales';
 import { Typography, Spacing, Colors } from '_styles';
 
 const Post = ({
+  postId,
   profileImage,
   name,
   isEdited,
@@ -14,7 +15,9 @@ const Post = ({
   downVotes,
   ownerID,
   currentUserID,
-  date
+  date,
+  upDownVote,
+  updateMasterState,
 }) => (
   <View style={StylesLocal.container}>
     {/* Profile and edited status section */}
@@ -31,7 +34,7 @@ const Post = ({
         </Text>
       </View>
       <View style={[StylesLocal.itemWrapper, { width: '25%', alignItems: 'flex-end' }]}>
-        <Text style={[Typography.FONT_THIN, StylesLocal.nameText, { fontSize: Typography.FONT_SIZE_12 }]}>
+        <Text style={[Typography.FONT_REGULAR, StylesLocal.nameText, { fontSize: Typography.FONT_SIZE_10 }]}>
           {isEdited ? I18n.get('(Edited)') : ''}
         </Text>
       </View>
@@ -47,8 +50,9 @@ const Post = ({
       <View style={{ flexDirection: 'row', width: '60%' }}>
         {/* Up votes */}
         <TouchableOpacity
-          hitSlop={{ top: 5, bottom: 5, left: 5, right: 10 }}
+          hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}
           style={[StylesLocal.itemWrapper, { width: Spacing.SCALE_26 }]}
+          onPress={() => upDownVote(postId, 'up', upVotes)}
         >
           <Icon name="chevron-up" size={Typography.FONT_SIZE_26} color={Colors.PRIMARY} style={{ marginTop: 0 }} />
         </TouchableOpacity>
@@ -59,8 +63,9 @@ const Post = ({
         </View>
         {/* Down votes */}
         <TouchableOpacity
-          hitSlop={{ top: 5, bottom: 5, left: 5, right: 10 }}
+          hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}
           style={[StylesLocal.itemWrapper, { width: Spacing.SCALE_26 }]}
+          onPress={() => upDownVote(postId, 'down', downVotes)}
         >
           <Icon name="chevron-down" size={Typography.FONT_SIZE_26} color={Colors.GRAY_MEDIUM} style={{ marginTop: 0 }} />
         </TouchableOpacity>
@@ -75,6 +80,11 @@ const Post = ({
         <TouchableOpacity
           hitSlop={{ top: 5, bottom: 5, left: 5, right: 10 }}
           style={[StylesLocal.itemWrapper, { width: Spacing.SCALE_26 }]}
+          onPress={() => {
+            updateMasterState('showModal', true);
+            updateMasterState('isEditingPost', postId);
+            updateMasterState('postContent', postContent);
+          }}
         >
           <Icon name="edit-3" size={Typography.FONT_SIZE_20} color={Colors.PRIMARY} style={{ marginTop: 0 }} />
         </TouchableOpacity>

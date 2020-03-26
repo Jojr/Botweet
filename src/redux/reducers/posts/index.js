@@ -110,6 +110,43 @@ export default (state = initialState, action) => {
         postsList: [...state.postsList, action.payload],
       };
     }
+    case types.EDIT_POST: {
+      const { foundIndex, postContent } = action.payload;
+      return {
+        ...state,
+        postsList: [
+          ...state.postsList.slice(0, foundIndex),
+          {
+            ...state.postsList[foundIndex],
+            postContent,
+            isEdited: true,
+          },
+          ...state.postsList.slice(foundIndex + 1)
+        ]
+      };
+    }
+    case types.UPVOTE: {
+      const { foundIndex, vote } = action.payload;
+      return {
+        ...state,
+        postsList: [
+          ...state.postsList.slice(0, foundIndex),
+          { ...state.postsList[foundIndex], upVotes: vote },
+          ...state.postsList.slice(foundIndex + 1)
+        ]
+      };
+    }
+    case types.DOWNVOTE: {
+      const { foundIndex, vote } = action.payload;
+      return {
+        ...state,
+        postsList: [
+          ...state.postsList.slice(0, foundIndex),
+          { ...state.postsList[foundIndex], downVotes: vote },
+          ...state.postsList.slice(foundIndex + 1)
+        ]
+      };
+    }
     default:
       return state;
   }

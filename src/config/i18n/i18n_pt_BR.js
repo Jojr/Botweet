@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 const portuguese = {
   pt_BR: {
     /* Login */
@@ -34,10 +35,17 @@ const portuguese = {
     'wrong or invalid': 'incorreto ou inválido',
     'Check if the field and try again.': 'Verifique o campo e tente novamente',
     'Field':'Campo',
+    'Continue': 'Continuar',
     /* Post */
     'Save post': 'Salvar postagem',
     'Do you want to save this post?': 'Você deseja publicar esta postagem?',
     'Save': 'Salvar',
+    'You like it?': 'Você curtiu esta postagem?',
+    'Confirm': 'Confirmar',
+    'Well, maybe this is not good for you.': 'Bem, talvez isso não seja apropriado pra você.',
+    "I don't like it" : 'Não gostei disso',
+    'Edit your inspiration:' : 'Edite sua inspiração:',
+    'My posts' : 'Meus posts',
   }
 };
 

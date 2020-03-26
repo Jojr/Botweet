@@ -113,6 +113,7 @@ class CreateAccountScene extends Component {
                 autoCorrect={false}
                 backgroundColor={Colors.TRANSPARENCY}
                 color={Colors.WHITE}
+                autoCapitalize="words"
               />
             </View>
             <View style={StylesLocal.fieldWrapper}>

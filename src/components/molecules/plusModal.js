@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import {
@@ -23,12 +24,31 @@ const maxAllowedCharacters = 280;
 const AnimatableTouchableOpacity = Animatable.createAnimatableComponent(TouchableOpacity);
 
 class PlusModal extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      isEditingPost: props.isEditingPost,
       postText: '',
     };
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { isEditingPost, postContent } = this.props;
+    if (isEditingPost !== prevProps.isEditingPost) {
+      console.log('isEditingPost');
+      console.log(isEditingPost);
+      this._updateMasterState('postText', postContent);
+      this._updateMasterState('isEditingPost', isEditingPost);
+      if (isEditingPost === false) {
+        this._updateMasterState('postText', '');
+        this._updateMasterState('isEditingPost', isEditingPost);
+      }
+    }
+  }
+
+  _updateMasterState = (attrName, value) => {
+    this.setState({ [attrName]: value });
+  };
 
   /* Count char qtd */
   postSection = () => {
@@ -86,7 +106,7 @@ class PlusModal extends Component {
     );
   };
 
-  /* Count char qtd */
+  /* Render submit */
   renderSubmitButton = () => {
     const { postText } = this.state;
     const current = postText.length;
@@ -148,6 +168,8 @@ class PlusModal extends Component {
             onPress: () => {
               this.setState({ postText: '' });
               updateMasterState('showModal', false);
+              updateMasterState('isEditingPost', false);
+              updateMasterState('postContent', false);
             }
           },
           { text: I18n.get('Cancel') },
@@ -155,13 +177,15 @@ class PlusModal extends Component {
       );
     } else {
       updateMasterState('showModal', false);
+      updateMasterState('isEditingPost', false);
+      updateMasterState('postContent', false);
     }
   };
 
   savePost = () => {
-    const { savePost, updateMasterState } = this.props;
-    const { postText } = this.state;
-    if (postText.length < 5) {
+    const { savePost, editPost, updateMasterState, refresh } = this.props;
+    const { postText, isEditingPost } = this.state;
+    if (postText.length < 1) {
       Alert.alert(
         I18n.get('Oops!'),
         I18n.get('You need to write more than 5 characters.'),
@@ -178,10 +202,16 @@ class PlusModal extends Component {
         {
           text: I18n.get('Save'),
           onPress: () => {
-            savePost(postText);
+            if (isEditingPost !== false) {
+              editPost(postText, isEditingPost);
+            } else {
+              savePost(postText);
+              updateMasterState('refresh', !refresh);
+            }
             this.setState({ postText: '' });
             updateMasterState('showModal', false);
-            // updateMasterState('refresh', true);
+            updateMasterState('isEditingPost', false);
+            updateMasterState('postContent', false);
           }
         },
         { text: I18n.get('Cancel') },
@@ -190,6 +220,7 @@ class PlusModal extends Component {
   };
 
   render() {
+    const { isEditingPost, postText } = this.state;
     const { visible, animationType, placeholder, autoFocus } = this.props;
     if (!visible) {
       return this.renderPlusButton();
@@ -222,7 +253,7 @@ class PlusModal extends Component {
               </View>
               <View style={{ paddingBottom: Spacing.SCALE_18 }}>
                 <Text style={[Typography.FONT_REGULAR, StylesLocal.headerText]}>
-                  {I18n.get('What inspires you today?')}
+                  {isEditingPost === false ? I18n.get('What inspires you today?') : I18n.get('Edit your inspiration:')}
                 </Text>
               </View>
               <View style={StylesLocal.inputWrapper}>
@@ -238,8 +269,8 @@ class PlusModal extends Component {
                   onChangeText={(postText) => this.setState({ postText })}
                   textContentType="none"
                   keyboardType="default"
-                  autoCorrect={true}
-                  autoCapitalize="none"
+                  autoCorrect
+                  // autoCapitalize="none"
                   returnKeyLabel="next"
                   // returnKeyType="done"
                   blurOnSubmit={false}
