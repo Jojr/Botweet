@@ -47,7 +47,7 @@ export const createAccount = (formData) => {
           },
         ],
       );
-    }, 2000);
+    }, 3000);
   };
 };
 

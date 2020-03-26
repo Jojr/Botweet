@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-stateless-function */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-shadow */
 /* eslint-disable global-require */
@@ -24,62 +25,19 @@ import { I18n } from '@aws-amplify/core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import SplashScreen from 'react-native-splash-screen';
+import Icon from 'react-native-vector-icons/Feather';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import * as Animatable from 'react-native-animatable';
 import * as AuthActions from '_actions/auth';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
 import { TitleTextInput, ButtonText, MyStatusBar, PasswordVisibility } from '_atoms';
 
-/* Compose animatable component */
-AnimatedScrollView = Animatable.createAnimatableComponent(ScrollView);
 
 class DrawerScene extends Component {
-  constructor() {
-    super();
-    this.state = {
-      backgroundLoaded: false,
-      email: '',
-      password: '',
-      hidePassword: true,
-    };
-  }
-
-  componentDidMount() {
-    SplashScreen.hide();
-  }
-
-  /* Hire the dev :D */
-  devAskingJobAlert = () => {
-    Alert.alert(
-      I18n.get('Alert'),
-      I18n.get('This feature is unavailable now. \n Please hire the dev to get more stuff. :) '),
-      [
-        { text: "Ok, I'll hire you" },
-      ],
-      {/* cancelable: false */},
-    );
-  };
-
-  /* Hadle login */
-  handleLogin = () => {
-    const { loginUser } = this.props;
-    const { email, password } = this.state;
-    loginUser({ email, password });
-  };
-
   render() {
-    const { email, password, backgroundLoaded, hidePassword } = this.state;
+    // const { email, password, hidePassword } = this.state;
     return (
-      <ImageBackground
-        source={require('../../assets/images/BackGroundImage.png')}
-        style={[
-          StylesLocal.container,
-          backgroundLoaded
-            ? {}
-            : { backgroundColor: Colors.PRIMARY },
-        ]}
-        onLoad={() => this.setState({ backgroundLoaded: true })}
+      <View
+        style={[StylesLocal.container, { }]}
       >
         <MyStatusBar backgroundColor="transparent" barStyle="light-content" />
         <KeyboardAwareScrollView
@@ -89,98 +47,54 @@ class DrawerScene extends Component {
           keyboardShouldPersistTaps="always"
           keyboardDismissMode="on-drag"
         >
-          <Animatable.View
-            animation="fadeInUp"
-            delay={1000}
-            useNativeDriver
+          <View
             style={StylesLocal.formWrapper}
           >
-            <View style={StylesLocal.fieldWrapper}>
-              <Image
-                resizeMode="contain"
-                style={StylesLocal.logo}
-                source={require('../../assets/images/Logo.png')}
-              />
-              <TitleTextInput
-                placeholder={I18n.get('Email')}
-                value={email}
-                onChangeText={(email) => this.setState({ email })}
-                keyboardType="email-address"
-                secureTextEntry={false}
-                textContentType="username"
-                autoCorrect={false}
-                backgroundColor={Colors.TRANSPARENCY}
-                color={Colors.WHITE}
-                // updateMasterState={this._updateMasterState}
-              />
-            </View>
-            <View style={StylesLocal.fieldWrapper}>
-              <TitleTextInput
-                placeholder={I18n.get('Password')}
-                value={password}
-                onChangeText={(password) => this.setState({ password })}
-                keyboardType="default"
-                secureTextEntry={hidePassword}
-                textContentType="password" // Set password to iOS12 keychain autofill
-                autoCorrect={false}
-                backgroundColor={Colors.TRANSPARENCY}
-                color={Colors.WHITE}
-                returnKeyLabel="next"
-                returnKeyType="next"
-                // updateMasterState={this._updateMasterState}
-              />
-              <PasswordVisibility
-                value={hidePassword}
-                onPress={() => this.setState({ hidePassword: !hidePassword })}
-              />
-            </View>
-            <View style={[StylesLocal.fieldWrapper, { alignSelf: 'center' }]}>
-              <TouchableOpacity
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                onPress={() => this.devAskingJobAlert()}
-              >
-                <Text style={[
-                  Typography.FONT_REGULAR,
-                  StylesLocal.text,
-                  StylesLocal.underline,
-                ]}
-                >
-                  {I18n.get('Forgot password?')}
-                </Text>
-              </TouchableOpacity>
+            <Image
+              // resizeMode="contain"
+              style={StylesLocal.image}
+              source={{ uri: 'https://i.stack.imgur.com/2xiwW.jpg' }}
+              // source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+            />
+            <View style={[StylesLocal.fieldWrapper, { marginTop: 30 }]}>
+              <Icon name="chevron-right" size={Typography.FONT_SIZE_26} color={Colors.PRIMARY} style={{ marginTop: 0 }} />
+              <Text style={[Typography.FONT_THIN, StylesLocal.text]}>
+                developer
+              </Text>
             </View>
             <View style={[StylesLocal.fieldWrapper]}>
-              <ButtonText
-                backgroundColor={Colors.GREEN}
-                color={Colors.WHITE}
-                onPress={() => this.handleLogin()}
-              >
-                {I18n.get('Enter')}
-              </ButtonText>
+              <Text style={[Typography.FONT_REGULAR, StylesLocal.text]}>
+                João Batista Belem Jr.
+              </Text>
             </View>
-            <View style={[StylesLocal.fieldWrapper, { alignSelf: 'center' }]}>
-              <TouchableOpacity>
-                <Text style={[Typography.FONT_REGULAR, StylesLocal.text]}>{I18n.get('or')}</Text>
-              </TouchableOpacity>
+
+            <View style={[StylesLocal.fieldWrapper, { marginTop: 30 }]}>
+              <Icon name="chevron-right" size={Typography.FONT_SIZE_26} color={Colors.PRIMARY} style={{ marginTop: 0 }} />
+              <Text style={[Typography.FONT_THIN, StylesLocal.text]}>
+                email
+              </Text>
             </View>
             <View style={[StylesLocal.fieldWrapper]}>
-              <ButtonText
-                backgroundColor="transparent"
-                borderWidth={1}
-                borderColor={Colors.WHITE}
-                color={Colors.WHITE}
-                onPress={() => {
-                  if (Actions.currentScene !== 'createAccount') {
-                    Actions.createAccount();
-                  }
-                }}
-              >
-                {I18n.get('Create new account')}
-              </ButtonText>
+              <Text style={[Typography.FONT_REGULAR, StylesLocal.text]}>
+                junior.jb@gmail.com
+              </Text>
             </View>
-          </Animatable.View>
+
+            <View style={[StylesLocal.fieldWrapper, { marginTop: 30 }]}>
+              <Icon name="chevron-right" size={Typography.FONT_SIZE_26} color={Colors.PRIMARY} style={{ marginTop: 0 }} />
+              <Text style={[Typography.FONT_THIN, StylesLocal.text]}>
+                phone
+              </Text>
+            </View>
+            <View style={[StylesLocal.fieldWrapper]}>
+              <Text style={[Typography.FONT_REGULAR, StylesLocal.text]}>
+                +55 41 988 055 237
+              </Text>
+            </View>
+
+          </View>
         </KeyboardAwareScrollView>
-      </ImageBackground>
+      </View>
     );
   }
 }
@@ -188,23 +102,36 @@ class DrawerScene extends Component {
 const StylesLocal = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000'
+  },
+  image: {
+    alignSelf: 'center',
+    width: Spacing.SCALE_200,
+    height: Spacing.SCALE_200,
+    borderRadius: Spacing.SCALE_200,
+    // marginRight: Spacing.SCALE_12
   },
   logo: {
     alignSelf: 'center',
-    paddingBottom: '50%',
+    // paddingBottom: '50%',
+    width: 400,
+    height: 400,
   },
   formWrapper: {
-    //paddingTop: '20%',
-    width: '85%',
-    alignSelf: 'center',
+    paddingTop: '20%',
+    // width: '85%',
+    // alignSelf: 'center',
   },
   fieldWrapper: {
-    marginTop: 15,
-    marginBottom: 15,
+    // marginTop: 15,
+    // marginBottom: 0,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   text: {
     color: Colors.WHITE,
-    fontSize: Typography.FONT_SIZE_20,
+    fontSize: Typography.FONT_SIZE_18,
   },
   underline: {
     textDecorationLine: 'underline',

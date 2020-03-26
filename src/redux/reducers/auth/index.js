@@ -22,6 +22,13 @@ export default (state = initialState, action) => {
         userData: action.payload,
       };
     }
+    case types.LOGOUT: {
+      console.log('Login complete');
+      return {
+        ...state,
+        ...initialState,
+      };
+    }
     default:
       return state;
   }

@@ -2,7 +2,6 @@ import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { I18n } from '@aws-amplify/core';
 import * as types from './types';
-import * as typesAuth from '../auth/types';
 import * as typesSystem from '../system/types';
 import * as validation from '../../../utils/validation';
 
@@ -28,11 +27,11 @@ export const loginUser = (login) => {
     // console.log(userData);
     /* Simulate api delay */
     setTimeout(() => {
-      dispatch({ type: typesAuth.LOGIN, payload: userData });
+      dispatch({ type: types.LOGIN, payload: userData });
       // Redirect to authenticated flow
       Actions.main();
       dispatch({ type: typesSystem.SPINNER_STATUS, payload: false });
-    }, 2000);
+    }, 3000);
   };
 };
 
@@ -43,8 +42,25 @@ export const login = (formData) => {
   };
 };
 
-export const purgeAccount = (accountData) => {
+/* Logout */
+export const logout = () => {
   return (dispatch) => {
-    dispatch({ type: types.CREATE_ACCOUNT, payload: accountData });
+    dispatch({ type: typesSystem.SPINNER_STATUS, payload: true });
+    setTimeout(() => {
+      dispatch({ type: types.LOGOUT, payload: null });
+      dispatch({ type: typesSystem.SPINNER_STATUS, payload: false });
+    }, 3000);
+  };
+};
+
+/* Purge store */
+export const purgeStore = () => {
+  return (dispatch) => {
+    dispatch({ type: typesSystem.SPINNER_STATUS, payload: true });
+    setTimeout(() => {
+      // dispatch({ type: types.PURGE, payload: null });
+      dispatch({ type: types.PURGE, key: 'root', result: () => null });
+      dispatch({ type: typesSystem.SPINNER_STATUS, payload: false });
+    }, 3000);
   };
 };

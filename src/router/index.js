@@ -25,7 +25,7 @@ import { NavButton, TabNavButton, DrawerIcon } from '_atoms';
 import * as authActions from '../redux/actions/auth';
 
 /* Scenes components */
-import { Login, CreateAccount, Home, User, DrawerMenu } from '../scenes';
+import { Login, CreateAccount, Home, User, DrawerMenu, Developer } from '../scenes';
 
 /* Define logo */
 const AppLogo = () => {
@@ -66,7 +66,7 @@ class RouterComponent extends Component {
             drawerWidth={300}
             contentComponent={DrawerMenu}
             drawerPosition="right"
-            navTransparent
+            // navTransparent
           >
             <Scene
               // initial={this.props.isAuthenticated}
@@ -114,7 +114,7 @@ class RouterComponent extends Component {
               />
               <Scene
                 key="acc"
-                component={CreateAccount}
+                component={Developer}
                 hideNavBar
                 navTransparent
                 icon={TabNavButton}

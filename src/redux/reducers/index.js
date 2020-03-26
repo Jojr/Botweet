@@ -30,7 +30,7 @@ export default combineReducers({
   // auth,
   account: persistReducer(accountsPersist, account),
   // account,
-  // posts: persistReducer(postPersist, posts),
-  posts,
+  posts: persistReducer(postPersist, posts),
+  // posts,
   system,
 });
