@@ -125,6 +125,16 @@ export default (state = initialState, action) => {
         ]
       };
     }
+    case types.DELETE_POST: {
+      const { foundIndex } = action.payload;
+      return {
+        ...state,
+        postsList: [
+          ...state.postsList.slice(0, foundIndex),
+          ...state.postsList.slice(foundIndex + 1)
+        ]
+      };
+    }
     case types.UPVOTE: {
       const { foundIndex, vote } = action.payload;
       return {

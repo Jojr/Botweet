@@ -6,9 +6,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    /* case types.PERSIST_REHYDRATE: {
+    case types.PERSIST_REHYDRATE: {
       return { ...state };
-    } */
+    }
     case types.PURGE: {
       console.log('PURGING STORE!!!!');
       return { ...initialState };

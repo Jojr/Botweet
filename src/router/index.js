@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable no-trailing-spaces */
@@ -18,23 +19,15 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { I18n } from '@aws-amplify/core';
 import { Typography, Spacing, Colors, Mixins } from '_styles';
-import { NavButton, TabNavButton } from '_atoms';
+import { NavButton, TabNavButton, DrawerIcon } from '_atoms';
 
 /* Import Actions */
 import * as authActions from '../redux/actions/auth';
 
 /* Scenes components */
-import { Login, CreateAccount, Home, User } from '../scenes';
-//import SideBar from '../SideBar';
+import { Login, CreateAccount, Home, User, DrawerMenu } from '../scenes';
 
-/* Drawer menu icon */
-const myIcon = (
-  <Icon
-    name="dots-vertical"
-    size={Typography.FONT_SIZE_30}
-    color={Colors.WHITE}
-  />
-);
+/* Define logo */
 const AppLogo = () => {
   return (
     <View style={{ flex: 1, alignItems: 'center', marginTop: 0 }}>
@@ -69,10 +62,9 @@ class RouterComponent extends Component {
             onEnter={() => {
               console.log('Drawer opened');
             }}
-            drawerIcon={myIcon}
+            drawerIcon={<DrawerIcon />}
             drawerWidth={300}
-            // contentComponent={SideBar}
-            contentComponent={Login}
+            contentComponent={DrawerMenu}
             drawerPosition="right"
             navTransparent
           >
@@ -126,7 +118,7 @@ class RouterComponent extends Component {
                 hideNavBar
                 navTransparent
                 icon={TabNavButton}
-                iconName="terminal"
+                iconName="code"
                 title={() => ''}
                 titleStyle={StylesLocal.tabText}
               />

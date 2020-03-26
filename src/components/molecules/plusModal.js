@@ -219,6 +219,53 @@ class PlusModal extends Component {
     );
   };
 
+  /* Render delete button id post is in edit mode */
+  renderDeleteButton = () => {
+    const { isEditingPost } = this.state;
+    if (isEditingPost !== false) {
+      return (
+        <TouchableOpacity
+          animation="bounceIn"
+          useNativeDriver
+          duration={500}
+          style={StylesLocal.deleteButtonWrapper}
+          activeOpacity={0.5}
+          onPress={() => this.deletePost()}
+        >
+          <Icon
+            name="trash-2"
+            size={Typography.FONT_SIZE_26}
+            color={Colors.WHITE}
+          />
+        </TouchableOpacity>
+      );
+    }
+    return false;
+  };
+
+  /* Delete post */
+  deletePost = () => {
+    const { deletePost, updateMasterState } = this.props;
+    const { isEditingPost } = this.state;
+    Alert.alert(
+      `${I18n.get('Delete post')}`,
+      I18n.get('Do you want to delete this post?'),
+      [
+        {
+          text: I18n.get('Delete'),
+          onPress: () => {
+            deletePost(isEditingPost);
+            this.setState({ postText: '' });
+            updateMasterState('showModal', false);
+            updateMasterState('isEditingPost', false);
+            updateMasterState('postContent', false);
+          }
+        },
+        { text: I18n.get('Cancel') },
+      ],
+    );
+  };
+
   render() {
     const { isEditingPost, postText } = this.state;
     const { visible, animationType, placeholder, autoFocus } = this.props;
@@ -280,9 +327,13 @@ class PlusModal extends Component {
                   {this.postSection()}
                 </View>
               </View>
-              <View style={StylesLocal.postSection}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                {/* Delete button */}
+                <View style={{ marginTop: Spacing.SCALE_16 }}>
+                  {this.renderDeleteButton()}
+                </View>
                 {/* Submit button */}
-                <View>
+                <View style={{ }}>
                   {this.renderSubmitButton()}
                 </View>
               </View>
@@ -314,6 +365,7 @@ const StylesLocal = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     padding: Spacing.SCALE_20,
+    borderTopRightRadius: Spacing.SCALE_50,
   },
   headerText: {
     color: Colors.WHITE,
@@ -349,6 +401,9 @@ const StylesLocal = StyleSheet.create({
     height: Spacing.SCALE_60,
     borderRadius: Spacing.SCALE_60,
     backgroundColor: Colors.PRIMARY,
+  },
+  deleteButtonWrapper: {
+    
   },
 });
 

@@ -37,6 +37,17 @@ export const editPost = (postContent, postId) => {
   };
 };
 
+/* Detele post */
+export const deletePost = (postId) => {
+  return (dispatch, getState) => {
+    const postData = getState().posts.postsList;
+    const foundIndex = postData.findIndex((x) => x.id === postId);
+    // console.log(foundIndex);
+    // const vote = postData[foundIndex].upVotes + 1;
+    dispatch({ type: types.DELETE_POST, payload: { foundIndex } });
+  };
+};
+
 /* Up votes */
 export const upVote = (postId) => {
   return (dispatch, getState) => {

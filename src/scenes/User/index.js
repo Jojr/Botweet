@@ -30,11 +30,6 @@ import { BaseHeader, Post, ProfilePicture, PlusModal } from '_molecules';
 /* Compose animatable component */
 AnimatedSafeAreaView = Animatable.createAnimatableComponent(SafeAreaView);
 
-/* Header constants */
-const HEADER_EXPANDED_HEIGHT = Spacing.SCALE_55;
-const HEADER_COLLAPSED_HEIGHT = 0;
-
-
 class UserScene extends Component {
   constructor() {
     super();
@@ -63,8 +58,6 @@ class UserScene extends Component {
       if (refresh !== prevState.refresh) {
         this.flatListRef.scrollToOffset({ animated: true, offset: 0 });
       }
-      // console.log('postsList é diferente de prev');
-      
     }
   }
 
@@ -121,7 +114,7 @@ class UserScene extends Component {
 
   render() {
     const { name, email, gender, profileImage } = this.props.userData;
-    const { postsList, savePost, editPost } = this.props;
+    const { postsList, savePost, editPost, deletePost } = this.props;
     const { scrollY, showModal, refresh, isEditingPost, postContent } = this.state;
 
     /* Filter current user posts */
@@ -195,6 +188,7 @@ class UserScene extends Component {
           placeholder={I18n.get('ex. "My inspiration taday is..."')}
           savePost={savePost}
           editPost={editPost}
+          deletePost={deletePost}
           refresh={refresh}
           isEditingPost={isEditingPost}
           postContent={postContent}

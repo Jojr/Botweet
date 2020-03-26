@@ -5,3 +5,4 @@ export { default as PasswordVisibility } from './passwordVisibility';
 export { default as NavButton } from './headerNavButton';
 export { default as TabNavButton } from './tabNavButton';
 export { default as PickerText } from './pickerText';
+export { default as DrawerIcon } from './drawerIcon';

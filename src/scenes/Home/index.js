@@ -116,7 +116,7 @@ class HomeScene extends Component {
 
   render() {
     const { name, email, gender, profileImage } = this.props.userData;
-    const { postsList, savePost, editPost } = this.props;
+    const { postsList, savePost, editPost, deletePost } = this.props;
     const { scrollY, showModal, refresh, isEditingPost, postContent } = this.state;
 
     /* Ordened post list by date desc */
@@ -239,6 +239,7 @@ class HomeScene extends Component {
           placeholder={I18n.get('ex. "My inspiration taday is..."')}
           savePost={savePost}
           editPost={editPost}
+          deletePost={deletePost}
           refresh={refresh}
           isEditingPost={isEditingPost}
           postContent={postContent}

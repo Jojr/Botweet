@@ -46,6 +46,9 @@ const portuguese = {
     "I don't like it" : 'Não gostei disso',
     'Edit your inspiration:' : 'Edite sua inspiração:',
     'My posts' : 'Meus posts',
+    'Delete' : 'Excluir',
+    'Delete post': 'Excluir post',
+    'Do you want to delete this post?' : 'Quer realmente excluir?',
   }
 };
 
