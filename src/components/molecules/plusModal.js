@@ -13,6 +13,7 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import SplashScreen from 'react-native-splash-screen';
 import { I18n } from '@aws-amplify/core';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import * as Animatable from 'react-native-animatable';
@@ -30,6 +31,10 @@ class PlusModal extends Component {
       isEditingPost: props.isEditingPost,
       postText: '',
     };
+  }
+
+  componentDidMount() {
+    SplashScreen.hide();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -80,6 +85,7 @@ class PlusModal extends Component {
           marginRight: Spacing.SCALE_6,
           marginBottom: Spacing.SCALE_5,
           justifyContent: 'center',
+          backgroundColor: '#000',
         }}
       >
         <Text style={
@@ -163,8 +169,9 @@ class PlusModal extends Component {
         I18n.get('Discard inspiration'),
         I18n.get('Do you really want to discard this post?'),
         [
+          { text: I18n.get('Cancel') },
           {
-            text: I18n.get('Discard'),
+            text: I18n.get('Discard changes'),
             onPress: () => {
               this.setState({ postText: '' });
               updateMasterState('showModal', false);
@@ -172,7 +179,7 @@ class PlusModal extends Component {
               updateMasterState('postContent', false);
             }
           },
-          { text: I18n.get('Cancel') },
+          
         ],
       );
     } else {
@@ -251,6 +258,7 @@ class PlusModal extends Component {
       `${I18n.get('Delete post')}`,
       I18n.get('Do you want to delete this post?'),
       [
+        { text: I18n.get('Cancel') },
         {
           text: I18n.get('Delete'),
           onPress: () => {
@@ -261,7 +269,6 @@ class PlusModal extends Component {
             updateMasterState('postContent', false);
           }
         },
-        { text: I18n.get('Cancel') },
       ],
     );
   };
@@ -380,6 +387,7 @@ const StylesLocal = StyleSheet.create({
     fontSize: Typography.FONT_SIZE_16,
     paddingLeft: Spacing.SCALE_10,
     paddingRight: Spacing.SCALE_10,
+    textAlignVertical: 'top',
   },
   postSection: {
     paddingTop: Spacing.SCALE_12,

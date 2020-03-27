@@ -1,18 +1,18 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Typography, Colors } from '_styles';
+import { Typography, Spacing, Colors } from '_styles';
 
-const PasswordVisibility = ({ value, onPress }) => {
+const PasswordVisibility = ({ value, onPress, size, color }) => {
   let icon;
   if (value) {
-    icon = <Icon name="eye-off" size={Typography.FONT_SIZE_30} color={Colors.WHITE} />;
+    icon = <Icon name="eye-off" size={size || Typography.FONT_SIZE_30} color={color || Colors.WHITE} />;
   } else {
-    icon = <Icon name="eye" size={Typography.FONT_SIZE_30} color={Colors.WHITE} />;
+    icon = <Icon name="eye" size={size || Typography.FONT_SIZE_30} color={color || Colors.WHITE} />;
   }
   return (
     <TouchableOpacity
-      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+      hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
       style={StylesLocal.button}
       onPress={onPress}
     >
@@ -25,8 +25,10 @@ const StylesLocal = StyleSheet.create({
   button: {
     position: 'absolute',
     right: 0,
-    marginTop: 10,
+    // marginTop: 10,
     marginRight: 10,
+    height: Spacing.SCALE_50,
+    justifyContent: 'center',
   },
 });
 

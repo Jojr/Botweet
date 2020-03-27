@@ -98,20 +98,22 @@ class HomeScene extends Component {
         ],
       );
     }
-    Alert.alert(
-      `${I18n.get('Confirm')}`,
-      I18n.get('Well, maybe this is not good for you.'),
-      [
-        { text: I18n.get('Cancel') },
-        {
-          text: I18n.get("I don't like it"),
-          onPress: () => {
-            downVote(postId);
-            return true;
-          }
-        },
-      ],
-    );
+    if (vote === 'down') {
+      Alert.alert(
+        `${I18n.get('Confirm')}`,
+        I18n.get('Well, maybe this content is not good for you.'),
+        [
+          { text: I18n.get('Cancel') },
+          {
+            text: I18n.get("I don't like it"),
+            onPress: () => {
+              downVote(postId);
+              return true;
+            }
+          },
+        ],
+      );
+    }
   };
 
   render() {

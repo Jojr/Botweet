@@ -3,7 +3,7 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable no-trailing-spaces */
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import { StyleSheet, View, Image, Text, Platform } from 'react-native';
 import {
   Scene,
   Router,
@@ -106,9 +106,11 @@ class RouterComponent extends Component {
                 // title={I18n.get('Help')}
                 renderTitle={() => {
                   return (
-                    <Text style={[Typography.FONT_BOLD, StylesLocal.titleText]}>
-                      {I18n.get('My posts')}
-                    </Text>
+                    <View style={{ flex: 1, alignItems: 'center', marginTop: 0 }}>
+                      <Text style={[Typography.FONT_BOLD, StylesLocal.titleText]}>
+                        {I18n.get('My posts')}
+                      </Text>
+                    </View>
                   );
                 }}
               />
@@ -162,8 +164,10 @@ class RouterComponent extends Component {
 const StylesLocal = StyleSheet.create({
   navBar: {
     backgroundColor: Colors.PRIMARY,
-    height: Spacing.SCALE_40,
+    paddingTop: Platform.select({ android: Spacing.SCALE_20, ios: 0 }),
+    height: Spacing.SCALE_60,
     borderBottomWidth: 0,
+    alignContent: 'center',
   },
   tabBarStyle: {
     height: 50,
@@ -174,6 +178,7 @@ const StylesLocal = StyleSheet.create({
     color: Colors.WHITE,
     fontSize: Typography.FONT_SIZE_16,
     textTransform: 'uppercase',
+    textAlign: 'center',
   },
   leftNavButton: {
     backgroundColor: '#FF00FF',

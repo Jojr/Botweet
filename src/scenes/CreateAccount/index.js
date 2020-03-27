@@ -10,15 +10,13 @@
 
 import React, { Component } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Image,
   Text,
   Alert,
   TouchableOpacity,
-  Picker,
+  Platform,
 } from 'react-native';
 import { I18n } from '@aws-amplify/core';
 import { bindActionCreators } from 'redux';
@@ -45,10 +43,6 @@ class CreateAccountScene extends Component {
     };
   }
 
-  componentDidMount() {
-    
-  }
-
   devAskingJobAlert = () => {
     Alert.alert(
       I18n.get('Alert'),
@@ -61,6 +55,7 @@ class CreateAccountScene extends Component {
   };
 
   handleSave = () => {
+    console.log('pressed')
     const { createAccount } = this.props;
     const data = this.state;
     const formData = {
@@ -76,21 +71,26 @@ class CreateAccountScene extends Component {
   render() {
     const { name, email, password, confirmPassword, hidePassword } = this.state;
     return (
-      <LinearGradient
-        start={{ x: 1, y: 0.5 }}
-        end={{ x: 0, y: 0.5 }}
-        useAngle
-        angle={65}
-        angleCenter={{ x: 0.5, y: 0.5 }}
-        colors={Colors.GRADIENT_PRIMARY}
-        style={StylesLocal.container}
+      <KeyboardAwareScrollView
+        enableOnAndroid
+        enableAutomaticScroll
+        extraScrollHeight={80}
+        extraHeight={Platform.select({ android: 100 })}
+        // keyboardShouldPersistTaps="always"
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        contentContainerStyle={{ flexGrow: 1 }}
+        style={{ flexGrow: 1 }}
+        //scrollEnabled
       >
-        <KeyboardAwareScrollView
-          enableOnAndroid
-          enableAutomaticScroll
-          extraScrollHeight={50}
-          keyboardShouldPersistTaps="always"
-          keyboardDismissMode="on-drag"
+        <LinearGradient
+          start={{ x: 1, y: 0.5 }}
+          end={{ x: 0, y: 0.5 }}
+          useAngle
+          angle={65}
+          angleCenter={{ x: 0.5, y: 0.5 }}
+          colors={Colors.GRADIENT_PRIMARY}
+          style={StylesLocal.container}
         >
           <MyStatusBar backgroundColor="transparent" barStyle="light-content" />
           <View style={StylesLocal.formWrapper}>
@@ -138,6 +138,7 @@ class CreateAccountScene extends Component {
                   {
                     label: I18n.get('Gender'),
                     value: null,
+                    fontSize: Typography.FONT_SIZE_22,
                   }
                 }
                 options={[
@@ -172,6 +173,8 @@ class CreateAccountScene extends Component {
               <PasswordVisibility
                 value={hidePassword}
                 onPress={() => this.setState({ hidePassword: !hidePassword })}
+                size={Typography.FONT_SIZE_20}
+                color={Colors.WHITE}
               />
             </View>
             <View style={StylesLocal.fieldWrapper}>
@@ -189,13 +192,15 @@ class CreateAccountScene extends Component {
               <PasswordVisibility
                 value={hidePassword}
                 onPress={() => this.setState({ hidePassword: !hidePassword })}
+                size={Typography.FONT_SIZE_20}
+                color={Colors.WHITE}
               />
             </View>
             <View style={[StylesLocal.fieldWrapper]}>
               <ButtonText
                 backgroundColor={Colors.GREEN}
                 color={Colors.WHITE}
-                onPress={this.handleSave}
+                onPress={() => this.handleSave()}
               >
                 {I18n.get('Create account')}
               </ButtonText>
@@ -216,15 +221,15 @@ class CreateAccountScene extends Component {
               </TouchableOpacity>
             </View>
           </View>
-        </KeyboardAwareScrollView>
-      </LinearGradient>
+        </LinearGradient>
+      </KeyboardAwareScrollView>
     );
   }
 }
 
 const StylesLocal = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
   },
   logo: {
     alignSelf: 'center',

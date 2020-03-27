@@ -132,6 +132,8 @@ class LoginScene extends Component {
               <PasswordVisibility
                 value={hidePassword}
                 onPress={() => this.setState({ hidePassword: !hidePassword })}
+                size={Typography.FONT_SIZE_20}
+                color={Colors.WHITE}
               />
             </View>
             <View style={[StylesLocal.fieldWrapper, { alignSelf: 'center' }]}>

@@ -12,10 +12,10 @@ export const createAccount = (formData) => {
     /* Validate all fields */
     if (!validation.StringNullOrEmptyValidation(formData)[0]) {
       const field = validation.StringNullOrEmptyValidation(formData)[1];
+      console.log(field);
       Alert.alert(
         `${I18n.get('Oops!')}`,
         ` ${I18n.get('Field')} ${field} ${I18n.get('wrong or invalid')}.`,
-        I18n.get('Check if the field and try again.'),
         [
           { text: 'Ok' },
         ],

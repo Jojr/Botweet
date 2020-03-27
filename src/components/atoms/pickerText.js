@@ -18,6 +18,7 @@ const PickerText = ({
         placeholder={placeholder}
         placeholderTextColor={color}
         doneText={doneText}
+        useNativeAndroidPickerStyle={false} // Needed for android custom styles.
         items={options}
         style={{
           ...pickerStyle,
@@ -26,6 +27,7 @@ const PickerText = ({
             color,
           },
           inputAndroid: {
+            ...textInput,
             color
           }
         }}
@@ -39,7 +41,7 @@ const pickerStyle = {
   inputIOS: {
     color: 'white',
     fontSize: Typography.FONT_SIZE_22,
-    paddingLeft: 20,
+    paddingLeft: Spacing.SCALE_20,
     paddingRight: 20,
     paddingTop: 13,
     paddingHorizontal: 10,
@@ -47,6 +49,12 @@ const pickerStyle = {
   },
   inputAndroid: {
     color: 'white',
+    fontSize: Typography.FONT_SIZE_22,
+    paddingLeft: Spacing.SCALE_20,
+    paddingRight: 20,
+    paddingTop: 13,
+    paddingHorizontal: 10,
+    paddingBottom: 12,
   },
   placeholderColor: 'white',
   underline: { borderTopWidth: 0 },
@@ -54,7 +62,7 @@ const pickerStyle = {
     position: 'absolute',
     backgroundColor: 'transparent',
     borderTopWidth: 5,
-    borderTopColor: '#00000099',
+    borderTopColor: '#FFFFFF',
     borderRightWidth: 5,
     borderRightColor: 'transparent',
     borderLeftWidth: 5,
