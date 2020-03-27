@@ -1,6 +1,6 @@
 # Botweet
 
-This application, including its file structure, was created to demonstrate the software architecture used and some React Native skills.
+This application, including the file structure, was created to demonstrate the software architecture and some React Native skills, to O Boticário.
 
 **App architeture:**
 This application architecture tries to exploit Atomic Design pattern, which bring more organization to files.
