@@ -1,6 +1,6 @@
 # Botweet
 
-This application, including its file structure, was created to demonstrate the software architecture used and some React Native skills.
+This application, including the file structure, was created to demonstrate the software architecture and some React Native skills, to O Boticário.
 
 **App architeture:**
 This application architecture tries to exploit Atomic Design pattern, which bring more organization to files.
@@ -33,7 +33,7 @@ This application architecture tries to exploit Atomic Design pattern, which brin
 - The font used in logo is [Bodrum Sweet](https://www.myfonts.com/fonts/buyukselcom/bodrum-sweet/ "Bodrum Sweet");
 - The font used in app content is [Montserrat](https://fonts.google.com/specimen/Montserrat "Montserrat");
 
-# How to try:
+# Behavior:
 All data generated inside the app, is persisted on local storage, no API calls to save data online.
 
 There is no profile screen to change data, but you can do logout and purge Redux store on developer menu.
